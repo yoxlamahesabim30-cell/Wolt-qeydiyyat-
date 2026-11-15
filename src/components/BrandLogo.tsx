@@ -1,4 +1,5 @@
 import React from 'react';
+import brandLogoImg from '../assets/images/wolt_qeydiyyat_baku_logo_1794724804911.jpg';
 
 interface BrandLogoProps {
   className?: string;
@@ -7,19 +8,14 @@ interface BrandLogoProps {
 export const BrandLogo: React.FC<BrandLogoProps> = ({ className = '' }) => {
   return (
     <span className={`inline-flex items-center gap-2.5 whitespace-nowrap shrink-0 ${className}`}>
-      <span
-        className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-sky-400 to-blue-600 shadow-md shadow-blue-950/50"
-        aria-hidden="true"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          className="h-5 w-5 text-white fill-current"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M13.5 2.5L4.5 13.5H11.5L10.5 21.5L19.5 10.5H12.5L13.5 2.5Z" />
-        </svg>
+      <span className="inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-sky-400/50 bg-[#0c2350] shadow-md shadow-blue-950/60 shrink-0">
+        <img
+          src={brandLogoImg}
+          alt="Wolt Qeydiyyatı - Bakı loqosu"
+          className="h-full w-full object-cover scale-[1.13]"
+        />
       </span>
-      <span className="font-[var(--font-display)] text-lg font-extrabold tracking-tight text-white">
+      <span className="font-[var(--font-display)] text-base sm:text-lg font-extrabold tracking-tight text-white">
         FLASHLY FLEET
       </span>
     </span>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ArrowUpRight, Phone, MessageCircle } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
+import { InstagramIcon } from './InstagramIcon';
 import { CAMPAIGN_TEXT, LINKS, NAV_ITEMS, OFFICE_INFO } from '../data/fleetData';
 
 export const Header: React.FC = () => {
@@ -78,13 +79,24 @@ export const Header: React.FC = () => {
             ))}
           </nav>
 
-          {/* Zone 3: Primary Action + Mobile Menu Trigger */}
-          <div className="flex items-center gap-3 shrink-0">
+          {/* Zone 3: Primary Action + Instagram + Mobile Menu Trigger */}
+          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+            <a
+              href={LINKS.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Instagram səhifəmiz: ${LINKS.instagramHandle}`}
+              title={`Instagram: ${LINKS.instagramHandle}`}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-pink-400/30 bg-[#0b1938] hover:border-pink-400/70 hover:scale-105 active:scale-95 transition-all duration-150 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-400"
+            >
+              <InstagramIcon className="h-5 w-5" />
+            </a>
+
             <a
               href={LINKS.registration}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-[40px] items-center justify-center gap-1.5 rounded-xl bg-yellow-400 px-4 py-2 text-xs sm:text-sm font-bold text-slate-950 shadow-sm hover:bg-yellow-300 active:scale-[0.99] transition-all duration-150 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-300"
+              className="inline-flex min-h-[40px] items-center justify-center gap-1.5 rounded-xl bg-yellow-400 px-3.5 sm:px-4 py-2 text-xs sm:text-sm font-bold text-slate-950 shadow-sm hover:bg-yellow-300 active:scale-[0.99] transition-all duration-150 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-300"
             >
               <span>Qeydiyyat</span>
               <ArrowUpRight className="h-4 w-4 shrink-0" aria-hidden="true" />

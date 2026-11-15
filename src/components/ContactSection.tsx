@@ -1,6 +1,7 @@
 import React from 'react';
 import { MapPin, MessageCircle, Phone, ArrowUpRight, Building2 } from 'lucide-react';
 import { LINKS, OFFICE_INFO } from '../data/fleetData';
+import { InstagramIcon } from './InstagramIcon';
 
 export const ContactSection: React.FC = () => {
   return (
@@ -85,16 +86,16 @@ export const ContactSection: React.FC = () => {
                 {/* First Number: +994 99 800 75 65 */}
                 <div className="rounded-xl border border-blue-400/20 bg-[#040b1a]/80 p-4 sm:p-5">
                   <div>
-                    <p className="text-xs font-semibold text-sky-400">WhatsApp və Zəng</p>
+                    <p className="text-xs font-semibold text-sky-400">WhatsApp, Zəng və Instagram</p>
                     <p className="mt-1 font-[var(--font-display)] text-base sm:text-lg font-bold text-white tabular-nums">
                       {OFFICE_INFO.whatsappDisplay}
                     </p>
                   </div>
 
-                  <div className="mt-4 grid grid-cols-2 gap-3">
+                  <div className="mt-4 grid grid-cols-3 gap-2">
                     <a
                       href={LINKS.whatsappPhoneHref}
-                      className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-bold text-white hover:bg-blue-500 transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
+                      className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl bg-blue-600 px-2 sm:px-3 py-2.5 text-xs sm:text-sm font-bold text-white hover:bg-blue-500 transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
                     >
                       <Phone className="h-4 w-4 shrink-0" aria-hidden="true" />
                       <span>Zəng Et</span>
@@ -103,10 +104,19 @@ export const ContactSection: React.FC = () => {
                       href={LINKS.whatsapp}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-bold text-slate-950 hover:bg-emerald-400 transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
+                      className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl bg-emerald-500 px-2 sm:px-3 py-2.5 text-xs sm:text-sm font-bold text-slate-950 hover:bg-emerald-400 transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
                     >
                       <MessageCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
                       <span>WhatsApp</span>
+                    </a>
+                    <a
+                      href={LINKS.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl border border-pink-400/40 bg-gradient-to-r from-[#833AB4]/30 via-[#FD1D1D]/25 to-[#F56040]/25 px-2 sm:px-3 py-2.5 text-xs sm:text-sm font-bold text-white hover:border-pink-400/80 hover:from-[#833AB4]/50 hover:to-[#F56040]/45 transition-all whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-400"
+                    >
+                      <InstagramIcon className="h-4 w-4 shrink-0" />
+                      <span>Instagram</span>
                     </a>
                   </div>
                 </div>
@@ -114,16 +124,16 @@ export const ContactSection: React.FC = () => {
                 {/* Second Number: +994 60 446 64 04 */}
                 <div className="rounded-xl border border-blue-400/20 bg-[#040b1a]/80 p-4 sm:p-5">
                   <div>
-                    <p className="text-xs font-semibold text-sky-400">Telefon və WhatsApp</p>
+                    <p className="text-xs font-semibold text-sky-400">Telefon, WhatsApp və Instagram</p>
                     <p className="mt-1 font-[var(--font-display)] text-base sm:text-lg font-bold text-white tabular-nums">
                       {OFFICE_INFO.phoneDisplay}
                     </p>
                   </div>
 
-                  <div className="mt-4 grid grid-cols-2 gap-3">
+                  <div className="mt-4 grid grid-cols-3 gap-2">
                     <a
                       href={LINKS.phoneHref}
-                      className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-bold text-white hover:bg-blue-500 transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
+                      className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl bg-blue-600 px-2 sm:px-3 py-2.5 text-xs sm:text-sm font-bold text-white hover:bg-blue-500 transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
                     >
                       <Phone className="h-4 w-4 shrink-0" aria-hidden="true" />
                       <span>Zəng Et</span>
@@ -132,10 +142,19 @@ export const ContactSection: React.FC = () => {
                       href={LINKS.phone2Whatsapp}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-bold text-slate-950 hover:bg-emerald-400 transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
+                      className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl bg-emerald-500 px-2 sm:px-3 py-2.5 text-xs sm:text-sm font-bold text-slate-950 hover:bg-emerald-400 transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
                     >
                       <MessageCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
                       <span>WhatsApp</span>
+                    </a>
+                    <a
+                      href={LINKS.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl border border-pink-400/40 bg-gradient-to-r from-[#833AB4]/30 via-[#FD1D1D]/25 to-[#F56040]/25 px-2 sm:px-3 py-2.5 text-xs sm:text-sm font-bold text-white hover:border-pink-400/80 hover:from-[#833AB4]/50 hover:to-[#F56040]/45 transition-all whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-400"
+                    >
+                      <InstagramIcon className="h-4 w-4 shrink-0" />
+                      <span>Instagram</span>
                     </a>
                   </div>
                 </div>

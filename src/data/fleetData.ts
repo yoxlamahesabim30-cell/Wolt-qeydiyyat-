@@ -5,6 +5,8 @@ export const LINKS = {
   phone2Whatsapp: 'https://wa.me/994604466404',
   phoneHref: 'tel:+994604466404',
   whatsappPhoneHref: 'tel:+994998007565',
+  instagram: 'https://www.instagram.com/woltqeydiyyati',
+  instagramHandle: '@woltqeydiyyati',
 } as const;
 
 export const CAMPAIGN_TEXT =
@@ -35,8 +37,8 @@ export const HERO_STATS = [
     detail: 'M10 nömrəsinə birbaşa köçürmə',
   },
   {
-    value: '3 Nəqliyyat Növü',
-    label: 'Piyada · Velo · Moto',
+    value: '4 Nəqliyyat Növü',
+    label: 'Velosiped · Skuter · Motosiklet · Avtomobil',
     detail: 'Özünüzə uyğun formanı seçin',
   },
 ] as const;
@@ -62,9 +64,9 @@ export const WORK_FEATURES = [
   },
   {
     id: '04',
-    title: 'Piyada, Velosiped və Motosiklet',
+    title: 'Velosiped, Skuter, Motosiklet və Avtomobil',
     description:
-      'Şəxsi nəqliyyat vasitənizdən asılı olmayaraq piyada, velosiped və ya motosikletlə işləmək mümkündür.',
+      'Şəxsi nəqliyyat vasitənizə uyğun olaraq velosiped, skuter, motosiklet və ya avtomobil ilə işləmək mümkündür.',
   },
   {
     id: '05',
@@ -180,9 +182,9 @@ export const FAQ_ITEMS: FaqItem[] = [
   },
   {
     id: 'faq-5',
-    question: 'Piyada və ya velosipedlə də işləyə bilərəmmi?',
+    question: 'Hansı nəqliyyat vasitələri ilə işləyə bilərəm?',
     answer:
-      'Bəli. FLASHLY FLEET ilə Wolt platformasında piyada, velosiped və ya motosikletlə sərbəst iş qrafiki əsasında çalışa bilərsiniz. İş saatlarınızı özünüz planlaşdırırsınız.',
+      'Bəli, FLASHLY FLEET ilə Wolt platformasında velosiped, skuter, motosiklet və ya avtomobil ilə sərbəst iş qrafiki əsasında çalışa bilərsiniz. İş saatlarınızı özünüz planlaşdırırsınız.',
   },
   {
     id: 'faq-6',

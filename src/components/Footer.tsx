@@ -1,6 +1,7 @@
 import React from 'react';
 import { Phone, MessageCircle } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
+import { InstagramIcon } from './InstagramIcon';
 import { LINKS, NAV_ITEMS, OFFICE_INFO } from '../data/fleetData';
 
 export const Footer: React.FC = () => {
@@ -120,6 +121,17 @@ export const Footer: React.FC = () => {
                   </a>
                 </span>
                 <span className="text-slate-200 tabular-nums">{OFFICE_INFO.phoneDisplay}</span>
+              </li>
+              <li>
+                <a
+                  href={LINKS.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2.5 text-slate-200 hover:text-white transition-colors"
+                >
+                  <InstagramIcon className="h-6 w-6 shrink-0" />
+                  <span>{LINKS.instagramHandle}</span>
+                </a>
               </li>
               <li className="text-slate-400">
                 {OFFICE_INFO.street} · {OFFICE_INFO.floorRoom}

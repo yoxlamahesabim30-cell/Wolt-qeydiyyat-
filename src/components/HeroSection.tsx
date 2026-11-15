@@ -1,10 +1,98 @@
-import React, { useState } from 'react';
-import { ArrowUpRight, ArrowDown, Zap } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { ArrowUpRight, ArrowDown, ChevronLeft, ChevronRight, Zap } from 'lucide-react';
 import { HERO_STATS, LINKS } from '../data/fleetData';
-import heroBakuCourierImg from '../assets/images/hero_baku_courier_1794720019050.jpg';
+import bicycleCourierImg from '../assets/images/courier_bicycle_baku_1794724802709.jpg';
+import scooterCourierImg from '../assets/images/courier_scooter_baku_1794724803116.jpg';
+import motorcycleCourierImg from '../assets/images/courier_motorcycle_baku_1794724804350.jpg';
+import carCourierImg from '../assets/images/courier_car_baku_1794724805009.jpg';
+
+interface TransportSlide {
+  id: string;
+  vehicle: string;
+  headline: string;
+  image: string;
+  alt: string;
+}
+
+const TRANSPORT_SLIDES: TransportSlide[] = [
+  {
+    id: 'velosiped',
+    vehicle: 'Velosiped',
+    headline: 'Velosipedlə Başla - Şəhəri Kəşf Et, Qazan!',
+    image: bicycleCourierImg,
+    alt: 'Bakıda velosipedli Wolt kuryeri',
+  },
+  {
+    id: 'skuter',
+    vehicle: 'Skuter',
+    headline: 'Skuterlə Sürətli Çatdır, Daha Çox Qazan!',
+    image: scooterCourierImg,
+    alt: 'Bakıda skuterli Wolt kuryeri',
+  },
+  {
+    id: 'motosiklet',
+    vehicle: 'Motosiklet',
+    headline: 'Motosikletlə Azad Ol - Yollar Sənindir!',
+    image: motorcycleCourierImg,
+    alt: 'Bakıda motosikletli Wolt kuryeri',
+  },
+  {
+    id: 'avtomobil',
+    vehicle: 'Avtomobil',
+    headline: 'Avtomobilinlə Rahat İşlə - Böyük Qazanc!',
+    image: carCourierImg,
+    alt: 'Bakıda avtomobilli Wolt kuryeri',
+  },
+];
 
 export const HeroSection: React.FC = () => {
-  const [imgError, setImgError] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [failedSlides, setFailedSlides] = useState<Record<string, boolean>>({});
+  const touchStartX = useRef<number | null>(null);
+  const touchDeltaX = useRef<number>(0);
+
+  const totalSlides = TRANSPORT_SLIDES.length;
+
+  const goToSlide = (index: number) => {
+    const normalized = ((index % totalSlides) + totalSlides) % totalSlides;
+    setActiveIndex(normalized);
+  };
+
+  const goNext = () => goToSlide(activeIndex + 1);
+  const goPrev = () => goToSlide(activeIndex - 1);
+
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = window.setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % totalSlides);
+    }, 4000);
+    return () => window.clearInterval(timer);
+  }, [isPaused, activeIndex, totalSlides]);
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    setIsPaused(true);
+    touchStartX.current = e.touches[0].clientX;
+    touchDeltaX.current = 0;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (touchStartX.current === null) return;
+    touchDeltaX.current = e.touches[0].clientX - touchStartX.current;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current !== null) {
+      if (touchDeltaX.current < -40) {
+        goNext();
+      } else if (touchDeltaX.current > 40) {
+        goPrev();
+      }
+    }
+    touchStartX.current = null;
+    touchDeltaX.current = 0;
+    setIsPaused(false);
+  };
 
   const handleScrollToEarnings = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -23,7 +111,7 @@ export const HeroSection: React.FC = () => {
         {/* 2-Column Hero Split */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-stretch lg:gap-10">
           {/* Left Column: Copy & Primary Actions */}
-          <div className="flex flex-col justify-center lg:col-span-7">
+          <div className="flex flex-col justify-center lg:col-span-6">
             <div className="mb-4 flex flex-wrap items-center gap-2 text-xs sm:text-sm font-medium text-sky-300">
               <span>FLASHLY FLEET</span>
               <span aria-hidden="true" className="text-blue-400/60">·</span>
@@ -78,43 +166,117 @@ export const HeroSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Hero Visual */}
-          <div className="lg:col-span-5">
-            <div className="relative h-72 sm:h-88 lg:h-full min-h-[320px] overflow-hidden rounded-2xl border border-blue-400/20 bg-blue-950/80 shadow-2xl shadow-blue-950/70">
-              {!imgError ? (
-                <>
-                  <img
-                    src={heroBakuCourierImg}
-                    alt="Bakı küçəsində Wolt forması və dəbilqəsi ilə gülümsəyən peşəkar oğlan kuryer"
-                    referrerPolicy="no-referrer"
-                    onError={() => setImgError(true)}
-                    className="h-full w-full object-cover object-top"
-                  />
+          {/* Right Column: 4-Vehicle Interactive Carousel */}
+          <div className="lg:col-span-6 flex flex-col">
+            <div
+              role="region"
+              aria-roledescription="karusel"
+              aria-label="Nəqliyyat növləri slayderi"
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              className="relative h-80 sm:h-96 lg:h-[420px] overflow-hidden rounded-2xl border border-blue-400/25 bg-blue-950/80 shadow-2xl shadow-blue-950/70 select-none touch-pan-y"
+            >
+              {/* Sliding Track */}
+              <div
+                className="flex h-full w-full transition-transform duration-500 ease-out"
+                style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+              >
+                {TRANSPORT_SLIDES.map((slide) => (
                   <div
-                    className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#050d1f]/85 via-[#050d1f]/20 to-transparent"
-                    aria-hidden="true"
-                  />
-                </>
-              ) : (
-                <div className="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-blue-900/70 to-[#050d1f] p-6 text-center">
-                  <Zap className="h-12 w-12 text-sky-400" aria-hidden="true" />
-                  <p className="mt-3 font-[var(--font-display)] text-lg font-bold text-white">
-                    FLASHLY FLEET
-                  </p>
-                  <p className="mt-1 text-sm text-slate-300">
-                    Wolt Kuryer Xidməti
-                  </p>
-                </div>
-              )}
+                    key={slide.id}
+                    className="relative h-full w-full shrink-0"
+                  >
+                    {!failedSlides[slide.id] ? (
+                      <img
+                        src={slide.image}
+                        alt={slide.alt}
+                        referrerPolicy="no-referrer"
+                        draggable={false}
+                        onError={() =>
+                          setFailedSlides((prev) => ({ ...prev, [slide.id]: true }))
+                        }
+                        className="h-full w-full object-cover object-top"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-blue-900/70 to-[#050d1f] p-6 text-center">
+                        <Zap className="h-12 w-12 text-sky-400" aria-hidden="true" />
+                        <p className="mt-3 font-[var(--font-display)] text-lg font-bold text-white">
+                          {slide.vehicle}
+                        </p>
+                      </div>
+                    )}
 
-              <div className="absolute inset-x-0 bottom-0 p-5">
-                <p className="text-xs font-medium text-sky-300">
-                  Piyada · Velosiped · Motosiklet
-                </p>
-                <p className="mt-1 text-sm sm:text-base font-semibold text-white">
-                  Öz vaxtınızı planlaşdırın, gündəlik və ya 15 günlük ödəniş alın.
-                </p>
+                    {/* Contrast Scrim */}
+                    <div
+                      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#040a1a]/95 via-[#040a1a]/30 to-transparent"
+                      aria-hidden="true"
+                    />
+
+                    {/* Overlay Vehicle Copy */}
+                    <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 pr-14">
+                      <p className="text-xs sm:text-sm font-semibold text-yellow-400">
+                        {slide.vehicle} · Velosiped · Skuter · Motosiklet · Avtomobil
+                      </p>
+                      <p className="mt-1.5 font-[var(--font-display)] text-base sm:text-xl font-bold text-white leading-snug">
+                        {slide.headline}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
+
+              {/* Left Previous Arrow */}
+              <button
+                type="button"
+                onClick={goPrev}
+                aria-label="Əvvəlki nəqliyyat şəkli"
+                className="absolute left-3 top-1/2 -translate-y-1/2 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/25 bg-[#050d1f]/75 text-white backdrop-blur-sm hover:bg-[#050d1f] hover:border-sky-400 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
+              >
+                <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+              </button>
+
+              {/* Prominent Right Swipe/Next Arrow ( > ) */}
+              <button
+                type="button"
+                onClick={goNext}
+                aria-label="Növbəti nəqliyyat şəkli — sürüşdür"
+                title="Sürüşdür"
+                className="absolute right-3 top-1/2 -translate-y-1/2 inline-flex h-11 items-center justify-center gap-1 rounded-full border border-yellow-400/70 bg-[#050d1f]/85 px-3 text-yellow-400 shadow-lg backdrop-blur-sm hover:bg-yellow-400 hover:text-slate-950 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-300"
+              >
+                <span className="hidden sm:inline text-xs font-bold">Sürüşdür</span>
+                <ChevronRight className="h-5 w-5 shrink-0" aria-hidden="true" />
+              </button>
+            </div>
+
+            {/* 4 Pagination Dots Below Carousel */}
+            <div className="mt-3.5 flex items-center justify-between gap-4 px-1">
+              <div className="flex items-center gap-2" role="tablist" aria-label="Şəkil göstəriciləri">
+                {TRANSPORT_SLIDES.map((slide, idx) => {
+                  const isActive = idx === activeIndex;
+                  return (
+                    <button
+                      key={slide.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={isActive}
+                      aria-label={`${slide.vehicle} şəklinə keç`}
+                      onClick={() => goToSlide(idx)}
+                      className={`h-2.5 rounded-full transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400 ${
+                        isActive
+                          ? 'w-8 bg-yellow-400'
+                          : 'w-2.5 bg-blue-300/35 hover:bg-blue-300/70'
+                      }`}
+                    />
+                  );
+                })}
+              </div>
+
+              <span className="text-xs font-medium text-slate-300 tabular-nums">
+                {activeIndex + 1} / {totalSlides} · {TRANSPORT_SLIDES[activeIndex].vehicle}
+              </span>
             </div>
           </div>
         </div>
