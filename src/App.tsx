@@ -7,10 +7,13 @@ import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
 import { WorkInfoSection } from './components/WorkInfoSection';
 import { EarningsSection } from './components/EarningsSection';
-import { RequirementsSection } from './components/RequirementsSection';
+import { MonthlyCalculatorSection } from './components/MonthlyCalculatorSection';
+import { SuccessStoriesSection } from './components/SuccessStoriesSection';
 import { FaqSection } from './components/FaqSection';
+import { RequirementsSection } from './components/RequirementsSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
+import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 
 export default function App() {
   return (
@@ -20,11 +23,14 @@ export default function App() {
         <HeroSection />
         <WorkInfoSection />
         <EarningsSection />
-        <RequirementsSection />
+        <MonthlyCalculatorSection />
+        <SuccessStoriesSection />
         <FaqSection />
+        <RequirementsSection />
         <ContactSection />
       </main>
       <Footer />
+      <FloatingWhatsApp />
     </div>
   );
 }

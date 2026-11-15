@@ -215,12 +215,9 @@ export const HeroSection: React.FC = () => {
                       aria-hidden="true"
                     />
 
-                    {/* Overlay Vehicle Copy */}
+                    {/* Overlay Vehicle Copy (White text only) */}
                     <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 pr-14">
-                      <p className="text-xs sm:text-sm font-semibold text-yellow-400">
-                        {slide.vehicle} · Velosiped · Skuter · Motosiklet · Avtomobil
-                      </p>
-                      <p className="mt-1.5 font-[var(--font-display)] text-base sm:text-xl font-bold text-white leading-snug">
+                      <p className="font-[var(--font-display)] text-base sm:text-xl font-bold text-white leading-snug">
                         {slide.headline}
                       </p>
                     </div>
@@ -244,7 +241,7 @@ export const HeroSection: React.FC = () => {
                 onClick={goNext}
                 aria-label="Növbəti nəqliyyat şəkli — sürüşdür"
                 title="Sürüşdür"
-                className="absolute right-3 top-1/2 -translate-y-1/2 inline-flex h-11 items-center justify-center gap-1 rounded-full border border-yellow-400/70 bg-[#050d1f]/85 px-3 text-yellow-400 shadow-lg backdrop-blur-sm hover:bg-yellow-400 hover:text-slate-950 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-300"
+                className="absolute right-3 top-1/2 -translate-y-1/2 inline-flex h-11 items-center justify-center gap-1 rounded-full border border-white/40 bg-[#050d1f]/85 px-3 text-white shadow-lg backdrop-blur-sm hover:bg-white hover:text-slate-950 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
                 <span className="hidden sm:inline text-xs font-bold">Sürüşdür</span>
                 <ChevronRight className="h-5 w-5 shrink-0" aria-hidden="true" />

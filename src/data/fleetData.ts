@@ -157,6 +157,31 @@ export interface FaqItem {
 
 export const FAQ_ITEMS: FaqItem[] = [
   {
+    id: 'faq-new-1',
+    question: 'Sənədim yoxdur, nə edim?',
+    answer: 'Problem deyil, qeydiyyatdan keçin, sənəd almaqda Sizə kömək edəcəyik.',
+  },
+  {
+    id: 'faq-new-2',
+    question: 'Pulu nə vaxt alıram?',
+    answer: 'Həftədə 1 dəfə, bank kartınıza köçürülür.',
+  },
+  {
+    id: 'faq-new-3',
+    question: 'Velosipedim yoxdur, işləyə bilərəm?',
+    answer: 'Bəli, icarə variantları da var, qeydiyyatda qeyd edin.',
+  },
+  {
+    id: 'faq-new-4',
+    question: 'Nə vaxt başlaya bilərəm?',
+    answer: 'Sənədlər hazırdırsa, 1-2 gün ərzində aktivləşdirilirsiniz.',
+  },
+  {
+    id: 'faq-new-5',
+    question: 'Yaş həddi var?',
+    answer: '18 yaşdan yuxarı hər kəs qoşula bilər.',
+  },
+  {
     id: 'faq-1',
     question: 'Qeydiyyat üçün hansı sənədlər və məlumatlar tələb olunur?',
     answer:

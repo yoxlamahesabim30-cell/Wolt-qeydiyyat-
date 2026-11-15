@@ -16,7 +16,7 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-[#040a18] py-12 text-slate-300">
+    <footer className="bg-[#040a18] pt-12 pb-24 sm:pb-12 text-slate-300">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
           <div className="md:col-span-5">

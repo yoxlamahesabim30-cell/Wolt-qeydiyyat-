@@ -2,10 +2,35 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, ArrowUpRight, Phone, MessageCircle } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
 import { InstagramIcon } from './InstagramIcon';
-import { CAMPAIGN_TEXT, LINKS, NAV_ITEMS, OFFICE_INFO } from '../data/fleetData';
+import { LINKS, NAV_ITEMS, OFFICE_INFO } from '../data/fleetData';
+
+interface CountdownTime {
+  days: number;
+  hours: number;
+  minutes: number;
+}
+
+const TARGET_DEADLINE_MS = new Date('2026-11-30T23:59:59+04:00').getTime();
+
+function getRemainingTime(): CountdownTime {
+  const diff = Math.max(0, TARGET_DEADLINE_MS - Date.now());
+  const totalMinutes = Math.floor(diff / 60000);
+  const days = Math.floor(totalMinutes / (60 * 24));
+  const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
+  const minutes = totalMinutes % 60;
+  return { days, hours, minutes };
+}
 
 export const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [countdown, setCountdown] = useState<CountdownTime>(() => getRemainingTime());
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setCountdown(getRemainingTime());
+    }, 15000);
+    return () => window.clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -28,23 +53,34 @@ export const Header: React.FC = () => {
     }
   };
 
+  const formattedHours = String(countdown.hours).padStart(2, '0');
+  const formattedMinutes = String(countdown.minutes).padStart(2, '0');
+
   return (
     <>
-      {/* Bright Yellow Campaign Banner */}
+      {/* Bright Yellow Campaign Banner with Live Counter */}
       <div className="bg-yellow-400 text-slate-950 border-b border-yellow-500/40">
-        <div className="mx-auto max-w-6xl px-4 py-2.5 text-center">
+        <div className="mx-auto max-w-6xl px-4 py-2 text-center">
           <a
             href={LINKS.registration}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex flex-wrap items-center justify-center gap-2 text-xs sm:text-sm font-extrabold tracking-wide text-slate-950 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-950 rounded"
+            className="inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-xs sm:text-sm font-extrabold tracking-wide hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-950 rounded"
           >
-            <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden="true">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-600 opacity-75" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-600" />
+            <span className="inline-flex items-center gap-2 text-red-700 animate-gentle-blink">
+              <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden="true">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-600 opacity-80" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-600" />
+              </span>
+              <span>30 Noyabr-dək Pulsuz Qeydiyyat - Son 12 Yer Qaldı!</span>
             </span>
-            <span>{CAMPAIGN_TEXT}</span>
-            <ArrowUpRight className="h-4 w-4 shrink-0" aria-hidden="true" />
+
+            <span className="inline-flex items-center gap-1.5 rounded-md bg-slate-950 px-2.5 py-0.5 text-[11px] sm:text-xs font-bold text-white tabular-nums">
+              <span>
+                Qalan vaxt: {countdown.days} gün {formattedHours} saat {formattedMinutes} dəq
+              </span>
+              <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-yellow-400" aria-hidden="true" />
+            </span>
           </a>
         </div>
       </div>

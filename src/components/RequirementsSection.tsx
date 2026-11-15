@@ -236,7 +236,10 @@ export const RequirementsSection: React.FC = () => {
               })}
             </ul>
 
-            <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-blue-400/15 pt-6">
+            <div
+              id="qeydiyyat-formasi"
+              className="mt-6 scroll-mt-24 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-blue-400/15 pt-6"
+            >
               <p className="text-xs sm:text-sm text-slate-300">
                 30 Noyabr 2026 tarixinədək qeydiyyat tamamilə ödənişsizdir.
               </p>
