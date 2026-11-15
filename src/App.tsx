@@ -10,10 +10,13 @@ import { EarningsSection } from './components/EarningsSection';
 import { MonthlyCalculatorSection } from './components/MonthlyCalculatorSection';
 import { SuccessStoriesSection } from './components/SuccessStoriesSection';
 import { FaqSection } from './components/FaqSection';
+import { InstagramBonusSection } from './components/InstagramBonusSection';
 import { RequirementsSection } from './components/RequirementsSection';
+import { ReferralSection } from './components/ReferralSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
+import { LiveRegistrationToast } from './components/LiveRegistrationToast';
 
 export default function App() {
   return (
@@ -26,10 +29,13 @@ export default function App() {
         <MonthlyCalculatorSection />
         <SuccessStoriesSection />
         <FaqSection />
+        <InstagramBonusSection />
         <RequirementsSection />
+        <ReferralSection />
         <ContactSection />
       </main>
       <Footer />
+      <LiveRegistrationToast />
       <FloatingWhatsApp />
     </div>
   );
