@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowUpRight, ArrowDown, Zap } from 'lucide-react';
 import { HERO_STATS, LINKS } from '../data/fleetData';
-import heroCourierImg from '../assets/images/hero_courier_fleet_1794716675849.jpg';
+import heroBakuCourierImg from '../assets/images/hero_baku_courier_1794720019050.jpg';
 
 export const HeroSection: React.FC = () => {
   const [imgError, setImgError] = useState(false);
@@ -62,24 +62,33 @@ export const HeroSection: React.FC = () => {
               </a>
             </div>
 
-            <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs sm:text-sm text-slate-300">
-              <span>30 Noyabr 2026-dək ödənişsiz qeydiyyat</span>
+            <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs sm:text-sm text-slate-200">
+              <span className="inline-flex items-center gap-2 font-medium text-white">
+                <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden="true">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-80" />
+                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-500" />
+                </span>
+                <span>30 Noyabr 2026-dək ödənişsiz qeydiyyat</span>
+              </span>
+              <span className="inline-flex items-center rounded-md bg-yellow-400 px-2 py-0.5 text-[11px] font-extrabold tracking-wide text-slate-950 animate-gentle-blink shadow-sm">
+                TƏLƏSİN!
+              </span>
               <span aria-hidden="true" className="text-blue-400/50">·</span>
-              <span>Bakı ofisi: Məmməd Araz 25A</span>
+              <span className="text-slate-300">Bakı ofisi: Məmməd Araz 25A</span>
             </div>
           </div>
 
           {/* Right Column: Hero Visual */}
           <div className="lg:col-span-5">
-            <div className="relative h-64 sm:h-80 lg:h-full min-h-[300px] overflow-hidden rounded-2xl border border-blue-400/20 bg-blue-950/80 shadow-2xl shadow-blue-950/70">
+            <div className="relative h-72 sm:h-88 lg:h-full min-h-[320px] overflow-hidden rounded-2xl border border-blue-400/20 bg-blue-950/80 shadow-2xl shadow-blue-950/70">
               {!imgError ? (
                 <>
                   <img
-                    src={heroCourierImg}
-                    alt="FLASHLY FLEET Wolt kuryeri elektrik skuterin yanında"
+                    src={heroBakuCourierImg}
+                    alt="Bakı küçəsində Wolt forması və dəbilqəsi ilə gülümsəyən peşəkar oğlan kuryer"
                     referrerPolicy="no-referrer"
                     onError={() => setImgError(true)}
-                    className="h-full w-full object-cover object-center"
+                    className="h-full w-full object-cover object-top"
                   />
                   <div
                     className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#050d1f]/85 via-[#050d1f]/20 to-transparent"

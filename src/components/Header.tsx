@@ -38,6 +38,10 @@ export const Header: React.FC = () => {
             rel="noopener noreferrer"
             className="inline-flex flex-wrap items-center justify-center gap-2 text-xs sm:text-sm font-extrabold tracking-wide text-slate-950 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-950 rounded"
           >
+            <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden="true">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-600 opacity-75" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-600" />
+            </span>
             <span>{CAMPAIGN_TEXT}</span>
             <ArrowUpRight className="h-4 w-4 shrink-0" aria-hidden="true" />
           </a>

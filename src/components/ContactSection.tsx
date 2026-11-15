@@ -82,48 +82,62 @@ export const ContactSection: React.FC = () => {
               </p>
 
               <div className="mt-6 space-y-4">
-                {/* WhatsApp Channel */}
-                <div className="rounded-xl border border-blue-400/20 bg-[#040b1a]/80 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                {/* First Number: +994 99 800 75 65 */}
+                <div className="rounded-xl border border-blue-400/20 bg-[#040b1a]/80 p-4 sm:p-5">
                   <div>
-                    <p className="text-xs font-semibold text-sky-400">WhatsApp</p>
+                    <p className="text-xs font-semibold text-sky-400">WhatsApp və Zəng</p>
+                    <p className="mt-1 font-[var(--font-display)] text-base sm:text-lg font-bold text-white tabular-nums">
+                      {OFFICE_INFO.whatsappDisplay}
+                    </p>
+                  </div>
+
+                  <div className="mt-4 grid grid-cols-2 gap-3">
                     <a
                       href={LINKS.whatsappPhoneHref}
-                      className="mt-1 inline-block font-[var(--font-display)] text-base sm:text-lg font-bold text-white hover:text-sky-300 transition-colors tabular-nums"
+                      className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-bold text-white hover:bg-blue-500 transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
                     >
-                      {OFFICE_INFO.whatsappDisplay}
+                      <Phone className="h-4 w-4 shrink-0" aria-hidden="true" />
+                      <span>Zəng Et</span>
+                    </a>
+                    <a
+                      href={LINKS.whatsapp}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-bold text-slate-950 hover:bg-emerald-400 transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
+                    >
+                      <MessageCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
+                      <span>WhatsApp</span>
                     </a>
                   </div>
-
-                  <a
-                    href={LINKS.whatsapp}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-emerald-500 px-5 py-2.5 text-sm font-bold text-slate-950 hover:bg-emerald-400 transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
-                  >
-                    <MessageCircle className="h-4 w-4" aria-hidden="true" />
-                    <span>WhatsApp ilə Yaz</span>
-                  </a>
                 </div>
 
-                {/* Phone Channel */}
-                <div className="rounded-xl border border-blue-400/20 bg-[#040b1a]/80 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                {/* Second Number: +994 60 446 64 04 */}
+                <div className="rounded-xl border border-blue-400/20 bg-[#040b1a]/80 p-4 sm:p-5">
                   <div>
-                    <p className="text-xs font-semibold text-sky-400">Telefon Zəngi</p>
-                    <a
-                      href={LINKS.phoneHref}
-                      className="mt-1 inline-block font-[var(--font-display)] text-base sm:text-lg font-bold text-white hover:text-sky-300 transition-colors tabular-nums"
-                    >
+                    <p className="text-xs font-semibold text-sky-400">Telefon və WhatsApp</p>
+                    <p className="mt-1 font-[var(--font-display)] text-base sm:text-lg font-bold text-white tabular-nums">
                       {OFFICE_INFO.phoneDisplay}
-                    </a>
+                    </p>
                   </div>
 
-                  <a
-                    href={LINKS.phoneHref}
-                    className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-blue-500 transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
-                  >
-                    <Phone className="h-4 w-4" aria-hidden="true" />
-                    <span>Zəng Et</span>
-                  </a>
+                  <div className="mt-4 grid grid-cols-2 gap-3">
+                    <a
+                      href={LINKS.phoneHref}
+                      className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-bold text-white hover:bg-blue-500 transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
+                    >
+                      <Phone className="h-4 w-4 shrink-0" aria-hidden="true" />
+                      <span>Zəng Et</span>
+                    </a>
+                    <a
+                      href={LINKS.phone2Whatsapp}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-bold text-slate-950 hover:bg-emerald-400 transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
+                    >
+                      <MessageCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
+                      <span>WhatsApp</span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

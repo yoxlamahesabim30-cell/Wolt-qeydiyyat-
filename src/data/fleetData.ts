@@ -2,6 +2,7 @@ export const LINKS = {
   registration: 'https://forms.gle/jmeGxgsDB4GYj4t48',
   video: 'https://youtu.be/Q3ZB9hiLd6g',
   whatsapp: 'https://wa.me/994998007565',
+  phone2Whatsapp: 'https://wa.me/994604466404',
   phoneHref: 'tel:+994604466404',
   whatsappPhoneHref: 'tel:+994998007565',
 } as const;
@@ -101,36 +102,48 @@ export const REGISTRATION_REQUIREMENTS = [
     number: '01',
     title: 'Şəxsiyyət vəsiqəsinin fotoları (ön və arxa)',
     detail: 'Məlumatların aydın oxunduğu yüksək keyfiyyətli foto.',
+    spokenText:
+      'Birinci tələb: Şəxsiyyət vəsiqəsinin ön və arxa tərəfinin fotoları. Məlumatların aydın oxunduğu yüksək keyfiyyətli foto tələb olunur.',
   },
   {
     id: 'selfie',
     number: '02',
     title: 'Selfi fotoşəkli',
     detail: 'Üzünüzün aydın göründüyü yeni çəkilmiş selfi.',
+    spokenText:
+      'İkinci tələb: Üz fotoşəkli. Üzünüzün aydın göründüyü yeni çəkilmiş fotoşəkil tələb olunur.',
   },
   {
     id: 'phone',
     number: '03',
     title: 'Aktiv telefon nömrəsi',
     detail: 'Əlaqə və tətbiq bildirişləri üçün daim aktiv olan nömrə.',
+    spokenText:
+      'Üçüncü tələb: Aktiv telefon nömrəsi. Əlaqə və tətbiq bildirişləri üçün daim aktiv olan nömrə tələb olunur.',
   },
   {
     id: 'gmail',
     number: '04',
     title: 'Aktiv Gmail hesabı',
     detail: 'Wolt kuryer hesabının bağlanması üçün işlək Gmail ünvanı.',
+    spokenText:
+      'Dördüncü tələb: Aktiv elektron poçt hesabı. Volt kuryer hesabının bağlanması üçün işlək elektron poçt ünvanı tələb olunur.',
   },
   {
     id: 'no-previous',
     number: '05',
     title: 'Əvvəllər Wolt-da qeydiyyatdan keçməmiş olmaq',
     detail: 'Namizədin adına daha öncə Wolt kuryer hesabı olmamalıdır.',
+    spokenText:
+      'Beşinci tələb: Əvvəllər Volt platformasında qeydiyyatdan keçməmiş olmaq. Namizədin adına daha öncə Volt kuryer hesabı olmamalıdır.',
   },
   {
     id: 'm10',
     number: '06',
     title: 'Maaş ödənişləri üçün aktiv M10 nömrəsi',
     detail: 'Qazancınızın köçürülməsi üçün aktiv M10 hesabı.',
+    spokenText:
+      'Altıncı tələb: Maaş ödənişləri üçün aktiv M on nömrəsi. Qazancınızın köçürülməsi üçün aktiv ödəniş hesabı tələb olunur.',
   },
 ] as const;
 

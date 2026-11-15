@@ -1,4 +1,5 @@
 import React from 'react';
+import { Phone, MessageCircle } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
 import { LINKS, NAV_ITEMS, OFFICE_INFO } from '../data/fleetData';
 
@@ -74,23 +75,51 @@ export const Footer: React.FC = () => {
                   Qeydiyyat Video Təlimatı (YouTube)
                 </a>
               </li>
-              <li>
-                <a
-                  href={LINKS.whatsapp}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-slate-300 hover:text-white transition-colors tabular-nums"
-                >
-                  WhatsApp: {OFFICE_INFO.whatsappDisplay}
-                </a>
+              <li className="flex items-center gap-2.5">
+                <span className="inline-flex items-center gap-1.5 shrink-0">
+                  <a
+                    href={LINKS.whatsappPhoneHref}
+                    aria-label={`${OFFICE_INFO.whatsappDisplay} nömrəsinə zəng et`}
+                    title="Zəng Et"
+                    className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-blue-400/35 bg-blue-600/25 text-sky-300 hover:bg-blue-600 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
+                  >
+                    <Phone className="h-3.5 w-3.5" aria-hidden="true" />
+                  </a>
+                  <a
+                    href={LINKS.whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${OFFICE_INFO.whatsappDisplay} WhatsApp ilə yaz`}
+                    title="WhatsApp"
+                    className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-emerald-400/35 bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500 hover:text-slate-950 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
+                  >
+                    <MessageCircle className="h-3.5 w-3.5" aria-hidden="true" />
+                  </a>
+                </span>
+                <span className="text-slate-200 tabular-nums">{OFFICE_INFO.whatsappDisplay}</span>
               </li>
-              <li>
-                <a
-                  href={LINKS.phoneHref}
-                  className="text-slate-300 hover:text-white transition-colors tabular-nums"
-                >
-                  Telefon: {OFFICE_INFO.phoneDisplay}
-                </a>
+              <li className="flex items-center gap-2.5">
+                <span className="inline-flex items-center gap-1.5 shrink-0">
+                  <a
+                    href={LINKS.phoneHref}
+                    aria-label={`${OFFICE_INFO.phoneDisplay} nömrəsinə zəng et`}
+                    title="Zəng Et"
+                    className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-blue-400/35 bg-blue-600/25 text-sky-300 hover:bg-blue-600 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
+                  >
+                    <Phone className="h-3.5 w-3.5" aria-hidden="true" />
+                  </a>
+                  <a
+                    href={LINKS.phone2Whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${OFFICE_INFO.phoneDisplay} WhatsApp ilə yaz`}
+                    title="WhatsApp"
+                    className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-emerald-400/35 bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500 hover:text-slate-950 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
+                  >
+                    <MessageCircle className="h-3.5 w-3.5" aria-hidden="true" />
+                  </a>
+                </span>
+                <span className="text-slate-200 tabular-nums">{OFFICE_INFO.phoneDisplay}</span>
               </li>
               <li className="text-slate-400">
                 {OFFICE_INFO.street} · {OFFICE_INFO.floorRoom}
