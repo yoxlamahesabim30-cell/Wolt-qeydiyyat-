@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Montserrat", system-ui, -apple-system, sans-serif;
+  --font-sans: "Golos Text", system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    background-color: #050d1f;
+    color: #ffffff;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+.corporate-gradient {
+  background: radial-gradient(circle at 80% 10%, rgba(37, 99, 235, 0.24) 0%, rgba(15, 42, 92, 0.4) 35%, rgba(5, 13, 31, 0) 70%),
+    linear-gradient(160deg, #040b1a 0%, #081734 45%, #0c2350 100%);
+}
+
+.card-surface {
+  background: linear-gradient(180deg, rgba(16, 38, 84, 0.65) 0%, rgba(9, 23, 52, 0.85) 100%);
+  border: 1px solid rgba(96, 165, 250, 0.16);
+}
