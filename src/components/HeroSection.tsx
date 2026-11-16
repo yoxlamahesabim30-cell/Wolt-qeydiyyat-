@@ -105,36 +105,41 @@ export const HeroSection: React.FC = () => {
   return (
     <section
       id="top"
-      className="corporate-gradient relative overflow-hidden border-b border-blue-400/15"
+      className="wolt-hero-bg relative overflow-hidden border-b border-[#0099C6]/20 transition-colors"
     >
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-16 lg:py-20">
         {/* 2-Column Hero Split */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-stretch lg:gap-10">
           {/* Left Column: Copy & Primary Actions */}
           <div className="flex flex-col justify-center lg:col-span-6">
-            <div className="mb-4 flex flex-wrap items-center gap-2 text-xs sm:text-sm font-medium text-sky-300">
+            <div className="mb-3 flex flex-wrap items-center gap-2 text-xs sm:text-sm font-bold text-[#0099C6]">
               <span>FLASHLY FLEET</span>
-              <span aria-hidden="true" className="text-blue-400/60">·</span>
+              <span aria-hidden="true">·</span>
               <span>Azərbaycanda Wolt Kuryer Partnyoru</span>
             </div>
 
             <h1
-              className="font-[var(--font-display)] font-extrabold tracking-tight text-white text-balance leading-[1.08]"
-              style={{ fontSize: 'clamp(2.25rem, 4.4vw, 3.75rem)' }}
+              className="font-[var(--font-display)] font-extrabold tracking-tight text-[#0B1B2B] dark:text-[#E2E8F0] text-balance leading-[1.08]"
+              style={{ fontSize: 'clamp(2.5rem, 4.8vw, 3.85rem)' }}
             >
               WOLT KURYERİ OL!
             </h1>
 
-            <p className="mt-5 max-w-xl text-base sm:text-lg leading-relaxed text-slate-200">
+            {/* Light-Blue Promo Box Directly Under Headline */}
+            <div className="mt-4 inline-flex w-fit max-w-full items-center rounded-xl border border-[#0099C6]/45 bg-[#E4F4FA] dark:bg-[#1E293B] px-4 py-2.5 text-sm sm:text-base font-bold text-[#0B1B2B] dark:text-[#E2E8F0] shadow-xs">
+              <span>🎁 30 Noyabr-dək qeydiyyat TAM ÖDƏNİŞSİZDİR</span>
+            </div>
+
+            <p className="mt-5 max-w-xl text-base sm:text-lg leading-relaxed text-[#334155] dark:text-[#CBD5E1]">
               Sərbəst iş qrafiki ilə işləyin, öz vaxtınızı özünüz idarə edin və qazanc əldə edin.
             </p>
 
-            <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-3.5">
+            <div className="mt-7 flex flex-col sm:flex-row sm:items-center gap-3.5">
               <a
                 href={LINKS.registration}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-yellow-400 px-6 py-3.5 text-sm sm:text-base font-bold text-slate-950 shadow-lg shadow-yellow-500/15 hover:bg-yellow-300 active:scale-[0.99] transition-all duration-150 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-300"
+                className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-[#0099C6] px-6 py-3.5 text-sm sm:text-base font-bold text-[#F8FAFC] shadow-md shadow-[#0099C6]/25 hover:bg-[#007FA6] active:scale-[0.99] transition-all duration-150 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6]"
               >
                 <span>Qeydiyyatdan Keç</span>
                 <ArrowUpRight className="h-5 w-5 shrink-0" aria-hidden="true" />
@@ -143,26 +148,17 @@ export const HeroSection: React.FC = () => {
               <a
                 href="#qazanc"
                 onClick={handleScrollToEarnings}
-                className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl border border-blue-400/30 bg-blue-950/60 px-6 py-3.5 text-sm sm:text-base font-semibold text-white hover:bg-blue-900/70 hover:border-sky-400/50 active:scale-[0.99] transition-all duration-150 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
+                className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-[#0099C6] px-6 py-3.5 text-sm sm:text-base font-bold text-[#F8FAFC] shadow-md shadow-[#0099C6]/20 hover:bg-[#007FA6] active:scale-[0.99] transition-all duration-150 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6]"
               >
                 <span>Qazanc Sistemi</span>
-                <ArrowDown className="h-4 w-4 shrink-0 text-sky-400" aria-hidden="true" />
+                <ArrowDown className="h-4 w-4 shrink-0" aria-hidden="true" />
               </a>
             </div>
 
-            <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs sm:text-sm text-slate-200">
-              <span className="inline-flex items-center gap-2 font-medium text-white">
-                <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden="true">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-80" />
-                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-500" />
-                </span>
-                <span>30 Noyabr 2026-dək ödənişsiz qeydiyyat</span>
-              </span>
-              <span className="inline-flex items-center rounded-md bg-yellow-400 px-2 py-0.5 text-[11px] font-extrabold tracking-wide text-slate-950 animate-gentle-blink shadow-sm">
-                TƏLƏSİN!
-              </span>
-              <span aria-hidden="true" className="text-blue-400/50">·</span>
-              <span className="text-slate-300">Bakı ofisi: Məmməd Araz 25A</span>
+            <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs sm:text-sm text-[#334155] dark:text-[#CBD5E1]">
+              <span>Bakı ofisi: Məmməd Araz 25A</span>
+              <span aria-hidden="true" className="text-[#0099C6]">·</span>
+              <span>Velosiped · Skuter · Motosiklet · Avtomobil</span>
             </div>
           </div>
 
@@ -177,7 +173,7 @@ export const HeroSection: React.FC = () => {
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
-              className="relative h-80 sm:h-96 lg:h-[420px] overflow-hidden rounded-2xl border border-blue-400/25 bg-blue-950/80 shadow-2xl shadow-blue-950/70 select-none touch-pan-y"
+              className="relative h-80 sm:h-96 lg:h-[420px] overflow-hidden rounded-2xl border border-[#0099C6]/35 bg-[#E4F4FA] dark:bg-[#1E293B] shadow-xl shadow-[#0B1B2B]/15 select-none touch-pan-y"
             >
               {/* Sliding Track */}
               <div
@@ -201,9 +197,11 @@ export const HeroSection: React.FC = () => {
                         className="h-full w-full object-cover object-top"
                       />
                     ) : (
-                      <div className="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-blue-900/70 to-[#050d1f] p-6 text-center">
-                        <Zap className="h-12 w-12 text-sky-400" aria-hidden="true" />
-                        <p className="mt-3 font-[var(--font-display)] text-lg font-bold text-white">
+                      <div className="flex h-full w-full flex-col items-center justify-center bg-[#E4F4FA] dark:bg-[#1E293B] p-6 text-center">
+                        <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#0099C6]/15 text-[#0099C6]">
+                          <Zap className="h-8 w-8" aria-hidden="true" />
+                        </span>
+                        <p className="mt-3 font-[var(--font-display)] text-lg font-bold text-[#0B1B2B] dark:text-[#E2E8F0]">
                           {slide.vehicle}
                         </p>
                       </div>
@@ -211,13 +209,13 @@ export const HeroSection: React.FC = () => {
 
                     {/* Contrast Scrim */}
                     <div
-                      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#040a1a]/95 via-[#040a1a]/30 to-transparent"
+                      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0B1B2B]/90 via-[#0B1B2B]/25 to-transparent"
                       aria-hidden="true"
                     />
 
-                    {/* Overlay Vehicle Copy (White text only) */}
+                    {/* Overlay Vehicle Copy (Soft Light text) */}
                     <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 pr-14">
-                      <p className="font-[var(--font-display)] text-base sm:text-xl font-bold text-white leading-snug">
+                      <p className="font-[var(--font-display)] text-base sm:text-xl font-bold text-[#F8FAFC] leading-snug">
                         {slide.headline}
                       </p>
                     </div>
@@ -230,7 +228,7 @@ export const HeroSection: React.FC = () => {
                 type="button"
                 onClick={goPrev}
                 aria-label="Əvvəlki nəqliyyat şəkli"
-                className="absolute left-3 top-1/2 -translate-y-1/2 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/25 bg-[#050d1f]/75 text-white backdrop-blur-sm hover:bg-[#050d1f] hover:border-sky-400 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
+                className="absolute left-3 top-1/2 -translate-y-1/2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#0099C6] text-[#F8FAFC] shadow-md hover:bg-[#007FA6] transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F8FAFC]"
               >
                 <ChevronLeft className="h-5 w-5" aria-hidden="true" />
               </button>
@@ -241,7 +239,7 @@ export const HeroSection: React.FC = () => {
                 onClick={goNext}
                 aria-label="Növbəti nəqliyyat şəkli — sürüşdür"
                 title="Sürüşdür"
-                className="absolute right-3 top-1/2 -translate-y-1/2 inline-flex h-11 items-center justify-center gap-1 rounded-full border border-white/40 bg-[#050d1f]/85 px-3 text-white shadow-lg backdrop-blur-sm hover:bg-white hover:text-slate-950 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                className="absolute right-3 top-1/2 -translate-y-1/2 inline-flex h-11 items-center justify-center gap-1 rounded-full bg-[#0099C6] px-3 text-[#F8FAFC] shadow-lg hover:bg-[#007FA6] transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F8FAFC]"
               >
                 <span className="hidden sm:inline text-xs font-bold">Sürüşdür</span>
                 <ChevronRight className="h-5 w-5 shrink-0" aria-hidden="true" />
@@ -261,17 +259,17 @@ export const HeroSection: React.FC = () => {
                       aria-selected={isActive}
                       aria-label={`${slide.vehicle} şəklinə keç`}
                       onClick={() => goToSlide(idx)}
-                      className={`h-2.5 rounded-full transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400 ${
+                      className={`h-2.5 rounded-full transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6] ${
                         isActive
-                          ? 'w-8 bg-yellow-400'
-                          : 'w-2.5 bg-blue-300/35 hover:bg-blue-300/70'
+                          ? 'w-8 bg-[#0099C6]'
+                          : 'w-2.5 bg-[#0099C6]/30 hover:bg-[#0099C6]/60'
                       }`}
                     />
                   );
                 })}
               </div>
 
-              <span className="text-xs font-medium text-slate-300 tabular-nums">
+              <span className="text-xs font-semibold text-[#334155] dark:text-[#CBD5E1] tabular-nums">
                 {activeIndex + 1} / {totalSlides} · {TRANSPORT_SLIDES[activeIndex].vehicle}
               </span>
             </div>
@@ -283,15 +281,15 @@ export const HeroSection: React.FC = () => {
           {HERO_STATS.map((stat) => (
             <div
               key={stat.label}
-              className="card-surface rounded-2xl p-4 sm:p-5"
+              className="wolt-card rounded-2xl p-4 sm:p-5"
             >
-              <div className="font-[var(--font-display)] text-xl sm:text-2xl font-extrabold tracking-tight text-white tabular-nums">
+              <div className="font-[var(--font-display)] text-xl sm:text-2xl font-extrabold tracking-tight text-[#0099C6] tabular-nums">
                 {stat.value}
               </div>
-              <div className="mt-1 text-sm font-semibold text-sky-300">
+              <div className="mt-1 text-sm font-bold text-[#0B1B2B] dark:text-[#E2E8F0]">
                 {stat.label}
               </div>
-              <div className="mt-1 text-xs text-slate-300 leading-snug">
+              <div className="mt-1 text-xs text-[#334155] dark:text-[#CBD5E1] leading-snug">
                 {stat.detail}
               </div>
             </div>

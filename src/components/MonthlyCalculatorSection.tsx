@@ -54,28 +54,28 @@ export const MonthlyCalculatorSection: React.FC = () => {
   return (
     <section
       id="ayliq-kalkulyator"
-      className="border-b border-blue-400/15 bg-[#061026] py-14 sm:py-20"
+      className="border-b border-[#0099C6]/20 bg-[#F1F5F9] dark:bg-[#0F172A] py-14 sm:py-20 transition-colors"
     >
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
         <div className="text-center">
-          <p className="text-xs sm:text-sm font-semibold text-sky-400">
+          <p className="text-xs sm:text-sm font-bold text-[#0099C6]">
             Aylıq Gəlir Hesablayıcısı
           </p>
           <h2
-            className="mt-2 font-[var(--font-display)] font-bold tracking-tight text-white text-balance"
+            className="mt-2 font-[var(--font-display)] font-extrabold tracking-tight text-[#0B1B2B] dark:text-[#E2E8F0] text-balance"
             style={{ fontSize: 'clamp(1.625rem, 3vw, 2.25rem)' }}
           >
             Nə Qədər Qazana Bilərsən?
           </h2>
-          <p className="mt-2.5 text-sm sm:text-base text-slate-300">
+          <p className="mt-2.5 text-sm sm:text-base text-[#334155] dark:text-[#CBD5E1]">
             Özünü hesabla, 5 saniyəyə gör
           </p>
         </div>
 
-        <div className="mt-8 card-surface rounded-2xl p-5 sm:p-8 space-y-7">
+        <div className="mt-8 wolt-card rounded-2xl p-5 sm:p-8 space-y-7">
           {/* 1. Vehicle Selector */}
           <div>
-            <p className="text-sm font-semibold text-white">
+            <p className="text-sm font-bold text-[#0B1B2B] dark:text-[#E2E8F0]">
               1. Nəqliyyat növünü seç:
             </p>
             <div
@@ -91,17 +91,21 @@ export const MonthlyCalculatorSection: React.FC = () => {
                     type="button"
                     aria-pressed={isSelected}
                     onClick={() => setSelectedVehicle(option.id)}
-                    className={`flex min-h-[48px] flex-col items-center justify-center gap-1 rounded-xl border px-3 py-2.5 text-center transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400 ${
+                    className={`flex min-h-[48px] flex-col items-center justify-center gap-1 rounded-xl border px-3 py-2.5 text-center transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6] ${
                       isSelected
-                        ? 'border-sky-400 bg-blue-600 text-white shadow-md shadow-blue-950/50'
-                        : 'border-blue-400/20 bg-[#040b1a]/80 text-slate-200 hover:border-sky-400/45 hover:text-white'
+                        ? 'border-[#0099C6] bg-[#0099C6] text-[#F8FAFC] shadow-sm'
+                        : 'border-[#0099C6]/30 bg-[#E4F4FA] dark:bg-[#0F172A] text-[#0B1B2B] dark:text-[#E2E8F0] hover:border-[#0099C6]'
                     }`}
                   >
                     <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold">
                       {renderVehicleIcon(option.id)}
                       <span>{option.label}</span>
                     </span>
-                    <span className="text-[11px] font-medium text-sky-200/90 tabular-nums">
+                    <span
+                      className={`text-[11px] font-semibold tabular-nums ${
+                        isSelected ? 'text-[#F8FAFC]/95' : 'text-[#0099C6]'
+                      }`}
+                    >
                       saatı {option.hourlyRate} AZN
                     </span>
                   </button>
@@ -115,11 +119,11 @@ export const MonthlyCalculatorSection: React.FC = () => {
             <div className="flex items-center justify-between gap-2">
               <label
                 htmlFor="daily-hours-slider"
-                className="text-sm font-semibold text-white"
+                className="text-sm font-bold text-[#0B1B2B] dark:text-[#E2E8F0]"
               >
                 2. Gündə neçə saat işləyəcəksən?
               </label>
-              <span className="text-sm font-bold text-sky-300 tabular-nums">
+              <span className="text-sm font-bold text-[#0099C6] tabular-nums">
                 {dailyHours} saat / gün
               </span>
             </div>
@@ -137,10 +141,10 @@ export const MonthlyCalculatorSection: React.FC = () => {
                     type="button"
                     aria-pressed={isSelected}
                     onClick={() => setDailyHours(hours)}
-                    className={`min-h-[44px] rounded-xl border px-2 py-2.5 text-xs sm:text-sm font-bold tabular-nums transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400 ${
+                    className={`min-h-[44px] rounded-xl border px-2 py-2.5 text-xs sm:text-sm font-bold tabular-nums transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6] ${
                       isSelected
-                        ? 'border-sky-400 bg-blue-600 text-white shadow-md'
-                        : 'border-blue-400/20 bg-[#040b1a]/80 text-slate-200 hover:border-sky-400/45 hover:text-white'
+                        ? 'border-[#0099C6] bg-[#0099C6] text-[#F8FAFC] shadow-sm'
+                        : 'border-[#0099C6]/30 bg-[#E4F4FA] dark:bg-[#0F172A] text-[#0B1B2B] dark:text-[#E2E8F0] hover:border-[#0099C6]'
                     }`}
                   >
                     {hours} saat
@@ -158,26 +162,26 @@ export const MonthlyCalculatorSection: React.FC = () => {
                 step={2}
                 value={dailyHours}
                 onChange={(e) => setDailyHours(Number(e.target.value))}
-                className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-blue-950 accent-sky-400"
+                className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-[#E4F4FA] dark:bg-[#0F172A] accent-[#0099C6]"
               />
             </div>
           </div>
 
-          {/* Large Green Result Box */}
-          <div className="rounded-2xl border border-emerald-400/50 bg-emerald-500/15 p-5 sm:p-7 text-center">
-            <p className="text-xs sm:text-sm font-semibold text-emerald-300">
+          {/* Soft Light-Blue Result Box */}
+          <div className="rounded-2xl border border-[#0099C6]/50 bg-[#E4F4FA] dark:bg-[#0F172A] p-5 sm:p-7 text-center">
+            <p className="text-xs sm:text-sm font-bold text-[#0099C6]">
               {currentVehicle.label} · Gündə {dailyHours} saat · Ayda {WORKING_DAYS_PER_MONTH} gün
             </p>
-            <div className="mt-2 font-[var(--font-display)] text-2xl sm:text-3xl font-extrabold text-white tabular-nums">
+            <div className="mt-2 font-[var(--font-display)] text-2xl sm:text-3xl font-extrabold text-[#0B1B2B] dark:text-[#E2E8F0] tabular-nums">
               Təxmini Aylıq Qazancın:{' '}
-              <span className="text-emerald-400">~ {estimatedMonthly} AZN</span>
+              <span className="text-[#0099C6]">~ {estimatedMonthly} AZN</span>
             </div>
 
             <div className="mt-5">
               <a
                 href="#qeydiyyat-formasi"
                 onClick={handleScrollToRegistration}
-                className="inline-flex min-h-[48px] w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-emerald-500 px-6 py-3.5 text-sm sm:text-base font-bold text-slate-950 shadow-lg shadow-emerald-950/40 hover:bg-emerald-400 active:scale-[0.99] transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
+                className="inline-flex min-h-[48px] w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-[#0099C6] px-6 py-3.5 text-sm sm:text-base font-bold text-[#F8FAFC] shadow-md shadow-[#0099C6]/25 hover:bg-[#007FA6] active:scale-[0.99] transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6]"
               >
                 <span>Bu qazancı istəyirəm - Qeydiyyatdan Keç</span>
                 <ArrowDown className="h-4 w-4 shrink-0" aria-hidden="true" />

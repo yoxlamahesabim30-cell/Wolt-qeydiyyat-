@@ -13,7 +13,7 @@ export const FloatingWhatsApp: React.FC = () => {
       rel="noopener noreferrer"
       aria-label="WhatsApp ilə əlaqə saxla"
       title="WhatsApp ilə yaz"
-      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-30 inline-flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-xl shadow-black/40 ring-2 ring-white/20 hover:bg-[#20bd5a] hover:scale-105 active:scale-95 transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
+      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-30 inline-flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-[#25D366] text-[#F8FAFC] shadow-xl shadow-[#0B1B2B]/30 ring-2 ring-[#F8FAFC]/25 hover:bg-[#20bd5a] hover:scale-105 active:scale-95 transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
     >
       <svg
         viewBox="0 0 24 24"

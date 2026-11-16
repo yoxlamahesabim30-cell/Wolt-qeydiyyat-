@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowUpRight, Phone, MessageCircle } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Phone, MessageCircle, Clock, Moon, Sun } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
 import { InstagramIcon } from './InstagramIcon';
 import { LINKS, NAV_ITEMS, OFFICE_INFO } from '../data/fleetData';
@@ -8,27 +8,45 @@ interface CountdownTime {
   days: number;
   hours: number;
   minutes: number;
+  seconds: number;
 }
 
 const TARGET_DEADLINE_MS = new Date('2026-11-30T23:59:59+04:00').getTime();
+const THEME_STORAGE_KEY = 'flashly_theme_mode';
 
 function getRemainingTime(): CountdownTime {
   const diff = Math.max(0, TARGET_DEADLINE_MS - Date.now());
-  const totalMinutes = Math.floor(diff / 60000);
-  const days = Math.floor(totalMinutes / (60 * 24));
-  const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
-  const minutes = totalMinutes % 60;
-  return { days, hours, minutes };
+  const totalSeconds = Math.floor(diff / 1000);
+  const days = Math.floor(totalSeconds / (60 * 60 * 24));
+  const hours = Math.floor((totalSeconds % (60 * 60 * 24)) / (60 * 60));
+  const minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
+  const seconds = totalSeconds % 60;
+  return { days, hours, minutes, seconds };
 }
 
 export const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [countdown, setCountdown] = useState<CountdownTime>(() => getRemainingTime());
+  const [isDark, setIsDark] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    return window.localStorage.getItem(THEME_STORAGE_KEY) === 'dark';
+  });
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (isDark) {
+      root.classList.add('dark');
+      window.localStorage.setItem(THEME_STORAGE_KEY, 'dark');
+    } else {
+      root.classList.remove('dark');
+      window.localStorage.setItem(THEME_STORAGE_KEY, 'light');
+    }
+  }, [isDark]);
 
   useEffect(() => {
     const interval = window.setInterval(() => {
       setCountdown(getRemainingTime());
-    }, 15000);
+    }, 1000);
     return () => window.clearInterval(interval);
   }, []);
 
@@ -55,75 +73,85 @@ export const Header: React.FC = () => {
 
   const formattedHours = String(countdown.hours).padStart(2, '0');
   const formattedMinutes = String(countdown.minutes).padStart(2, '0');
+  const formattedSeconds = String(countdown.seconds).padStart(2, '0');
 
   return (
     <>
-      {/* Bright Yellow Campaign Banner with Live Counter */}
-      <div className="bg-yellow-400 text-slate-950 border-b border-yellow-500/40">
+      {/* Soft Wolt Blue Gradient Announcement Strip */}
+      <div className="bg-gradient-to-r from-[#0099C6] to-[#007FA6] text-[#F8FAFC]">
         <div className="mx-auto max-w-6xl px-4 py-2 text-center">
           <a
             href={LINKS.registration}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-xs sm:text-sm font-extrabold tracking-wide hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-950 rounded"
+            className="inline-flex flex-col items-center justify-center gap-0.5 hover:opacity-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F8FAFC] rounded"
           >
-            <span className="inline-flex items-center gap-2 text-red-700 animate-gentle-blink">
-              <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden="true">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-600 opacity-80" />
-                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-600" />
-              </span>
-              <span>30 Noyabr-dək Pulsuz Qeydiyyat - Son 12 Yer Qaldı!</span>
+            <span className="font-[var(--font-display)] text-base sm:text-lg font-extrabold tracking-wide text-[#F8FAFC]">
+              30 Noyabr-dək Ödənişsiz Qeydiyyat
             </span>
-
-            <span className="inline-flex items-center gap-1.5 rounded-md bg-slate-950 px-2.5 py-0.5 text-[11px] sm:text-xs font-bold text-white tabular-nums">
+            <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[#F8FAFC]/95 tabular-nums">
+              <Clock className="h-3.5 w-3.5 text-[#F8FAFC] shrink-0" aria-hidden="true" />
               <span>
-                Qalan vaxt: {countdown.days} gün {formattedHours} saat {formattedMinutes} dəq
+                Qalan vaxt: {countdown.days} gün {formattedHours} saat {formattedMinutes} dəq {formattedSeconds} san
               </span>
-              <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-yellow-400" aria-hidden="true" />
             </span>
           </a>
         </div>
       </div>
 
-      {/* Single-row 3-zone Sticky Navigation */}
-      <header className="sticky top-0 z-40 border-b border-blue-400/15 bg-[#050e23]/92 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-8 px-4 sm:px-6">
+      {/* Soft Sticky Navigation */}
+      <header className="sticky top-0 z-40 border-b border-[#0099C6]/20 bg-[#F8FAFC]/95 dark:bg-[#1E293B]/95 backdrop-blur-md transition-colors">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 sm:gap-8 px-4 sm:px-6">
           {/* Zone 1: Brand Wordmark */}
           <a
             href="#top"
             onClick={(e) => handleNavClick(e, '#top')}
-            className="rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400 shrink-0"
+            className="rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6] shrink-0"
             aria-label="FLASHLY FLEET Ana Səhifə"
           >
-            <BrandLogo />
+            <BrandLogo tone="dark" />
           </a>
 
           {/* Zone 2: Desktop Navigation Links */}
           <nav
             aria-label="Əsas naviqasiya"
-            className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-200"
+            className="hidden md:flex items-center gap-6 text-sm font-semibold text-[#0B1B2B] dark:text-[#E2E8F0]"
           >
             {NAV_ITEMS.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
-                className="whitespace-nowrap shrink-0 py-1.5 text-slate-200 hover:text-white transition-colors duration-150 border-b-2 border-transparent hover:border-sky-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-400 rounded-sm"
+                className="whitespace-nowrap shrink-0 py-1.5 text-[#0B1B2B] dark:text-[#E2E8F0] hover:text-[#0099C6] dark:hover:text-[#0099C6] transition-colors duration-150 border-b-2 border-transparent hover:border-[#0099C6] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#0099C6] rounded-sm"
               >
                 {item.label}
               </a>
             ))}
           </nav>
 
-          {/* Zone 3: Primary Action + Instagram + Mobile Menu Trigger */}
-          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+          {/* Zone 3: Theme Toggle + Instagram + Primary Action + Mobile Menu Trigger */}
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={() => setIsDark((prev) => !prev)}
+              aria-label={isDark ? 'İşıqlı rejimə keç' : 'Qaranlıq rejimə keç'}
+              title={isDark ? 'İşıqlı rejim' : 'Qaranlıq rejim'}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#0099C6]/35 bg-[#E4F4FA] dark:bg-[#0F172A] text-[#0B1B2B] dark:text-[#E2E8F0] hover:border-[#0099C6] hover:scale-105 active:scale-95 transition-all duration-150 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6]"
+            >
+              {isDark ? (
+                <Sun className="h-4 w-4 text-[#0099C6]" aria-hidden="true" />
+              ) : (
+                <Moon className="h-4 w-4 text-[#0099C6]" aria-hidden="true" />
+              )}
+            </button>
+
             <a
               href={LINKS.instagram}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Instagram səhifəmiz: ${LINKS.instagramHandle}`}
               title={`Instagram: ${LINKS.instagramHandle}`}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-pink-400/30 bg-[#0b1938] hover:border-pink-400/70 hover:scale-105 active:scale-95 transition-all duration-150 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-400"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#0099C6]/35 bg-[#E4F4FA] dark:bg-[#0F172A] hover:border-[#0099C6] hover:scale-105 active:scale-95 transition-all duration-150 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6]"
             >
               <InstagramIcon className="h-5 w-5" />
             </a>
@@ -132,7 +160,7 @@ export const Header: React.FC = () => {
               href={LINKS.registration}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-[40px] items-center justify-center gap-1.5 rounded-xl bg-yellow-400 px-3.5 sm:px-4 py-2 text-xs sm:text-sm font-bold text-slate-950 shadow-sm hover:bg-yellow-300 active:scale-[0.99] transition-all duration-150 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-300"
+              className="inline-flex min-h-[40px] items-center justify-center gap-1.5 rounded-xl bg-[#0099C6] px-3.5 sm:px-4 py-2 text-xs sm:text-sm font-bold text-[#F8FAFC] shadow-sm hover:bg-[#007FA6] active:scale-[0.99] transition-all duration-150 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6]"
             >
               <span>Qeydiyyat</span>
               <ArrowUpRight className="h-4 w-4 shrink-0" aria-hidden="true" />
@@ -144,7 +172,7 @@ export const Header: React.FC = () => {
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-nav-drawer"
               aria-label={mobileMenuOpen ? 'Menyunu bağla' : 'Menyunu aç'}
-              className="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-xl border border-blue-400/25 bg-blue-950/60 text-white hover:bg-blue-900/70 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
+              className="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[#0099C6]/35 bg-[#E4F4FA] dark:bg-[#0F172A] text-[#0B1B2B] dark:text-[#E2E8F0] hover:bg-[#0099C6]/15 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6]"
             >
               {mobileMenuOpen ? (
                 <X className="h-5 w-5" aria-hidden="true" />
@@ -159,7 +187,7 @@ export const Header: React.FC = () => {
         {mobileMenuOpen && (
           <div
             id="mobile-nav-drawer"
-            className="md:hidden border-t border-blue-400/15 bg-[#061129] px-4 pb-5 pt-3 shadow-2xl"
+            className="md:hidden border-t border-[#0099C6]/20 bg-[#F8FAFC] dark:bg-[#1E293B] px-4 pb-5 pt-3 shadow-xl"
           >
             <nav aria-label="Mobil naviqasiya" className="flex flex-col gap-1">
               {NAV_ITEMS.map((item) => (
@@ -167,21 +195,21 @@ export const Header: React.FC = () => {
                   key={item.href}
                   href={item.href}
                   onClick={(e) => handleNavClick(e, item.href)}
-                  className="flex min-h-[44px] items-center justify-between rounded-xl px-3.5 py-2.5 text-base font-medium text-slate-100 hover:bg-blue-900/50 hover:text-white transition-colors"
+                  className="flex min-h-[44px] items-center justify-between rounded-xl px-3.5 py-2.5 text-base font-semibold text-[#0B1B2B] dark:text-[#E2E8F0] hover:bg-[#E4F4FA] dark:hover:bg-[#0F172A] hover:text-[#0099C6] transition-colors"
                 >
                   <span>{item.label}</span>
-                  <ArrowUpRight className="h-4 w-4 text-sky-400" aria-hidden="true" />
+                  <ArrowUpRight className="h-4 w-4 text-[#0099C6]" aria-hidden="true" />
                 </a>
               ))}
             </nav>
 
-            <div className="mt-4 grid grid-cols-1 gap-2.5 border-t border-blue-400/15 pt-4">
+            <div className="mt-4 grid grid-cols-1 gap-2.5 border-t border-[#0099C6]/20 pt-4">
               <a
                 href={LINKS.registration}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex min-h-[46px] items-center justify-center gap-2 rounded-xl bg-yellow-400 px-4 py-3 text-sm font-bold text-slate-950 hover:bg-yellow-300 transition-colors"
+                className="flex min-h-[46px] items-center justify-center gap-2 rounded-xl bg-[#0099C6] px-4 py-3 text-sm font-bold text-[#F8FAFC] hover:bg-[#007FA6] transition-colors"
               >
                 <span>Qeydiyyatdan Keç</span>
                 <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
@@ -193,17 +221,17 @@ export const Header: React.FC = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex min-h-[44px] items-center justify-center gap-2 rounded-xl border border-blue-400/25 bg-blue-950/60 px-3 py-2.5 text-xs font-semibold text-white hover:bg-blue-900/60 transition-colors"
+                  className="flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-[#25D366] px-3 py-2.5 text-xs font-bold text-[#0B1B2B] hover:bg-[#20bd5a] transition-colors"
                 >
-                  <MessageCircle className="h-4 w-4 text-sky-400" aria-hidden="true" />
+                  <MessageCircle className="h-4 w-4" aria-hidden="true" />
                   <span>WhatsApp</span>
                 </a>
                 <a
                   href={LINKS.phoneHref}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex min-h-[44px] items-center justify-center gap-2 rounded-xl border border-blue-400/25 bg-blue-950/60 px-3 py-2.5 text-xs font-semibold text-white hover:bg-blue-900/60 transition-colors"
+                  className="flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-[#0099C6] px-3 py-2.5 text-xs font-bold text-[#F8FAFC] hover:bg-[#007FA6] transition-colors"
                 >
-                  <Phone className="h-4 w-4 text-sky-400" aria-hidden="true" />
+                  <Phone className="h-4 w-4" aria-hidden="true" />
                   <span>{OFFICE_INFO.phoneDisplay}</span>
                 </a>
               </div>

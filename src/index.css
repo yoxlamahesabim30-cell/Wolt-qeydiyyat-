@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --font-display: "Montserrat", system-ui, -apple-system, sans-serif;
@@ -9,9 +10,14 @@
   html {
     font-family: var(--font-sans);
     scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
-    background-color: #050d1f;
-    color: #ffffff;
+    scroll-padding-top: 6rem;
+    background-color: #eef2f6;
+    color: #0b1b2b;
+  }
+
+  html.dark {
+    background-color: #0f172a;
+    color: #e2e8f0;
   }
 
   h1, h2, h3, h4 {
@@ -30,31 +36,34 @@
   }
 }
 
-.corporate-gradient {
-  background: radial-gradient(circle at 80% 10%, rgba(37, 99, 235, 0.24) 0%, rgba(15, 42, 92, 0.4) 35%, rgba(5, 13, 31, 0) 70%),
-    linear-gradient(160deg, #040b1a 0%, #081734 45%, #0c2350 100%);
+.wolt-hero-bg {
+  background: radial-gradient(circle at 85% 15%, rgba(0, 153, 198, 0.14) 0%, rgba(224, 244, 250, 0.75) 42%, #eef2f6 80%);
 }
 
-.card-surface {
-  background: linear-gradient(180deg, rgba(16, 38, 84, 0.65) 0%, rgba(9, 23, 52, 0.85) 100%);
-  border: 1px solid rgba(96, 165, 250, 0.16);
+html.dark .wolt-hero-bg {
+  background: radial-gradient(circle at 85% 15%, rgba(0, 153, 198, 0.18) 0%, rgba(30, 41, 59, 0.65) 45%, #0f172a 82%);
 }
 
-@keyframes gentleBlink {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.55;
-  }
+.wolt-card {
+  background-color: #f8fafc;
+  border: 1px solid rgba(0, 153, 198, 0.22);
+  box-shadow: 0 10px 28px -12px rgba(11, 27, 43, 0.12), 0 2px 8px -2px rgba(11, 27, 43, 0.05);
 }
 
-.animate-gentle-blink {
-  animation: gentleBlink 2.2s ease-in-out infinite;
+html.dark .wolt-card {
+  background-color: #1e293b;
+  border: 1px solid rgba(0, 153, 198, 0.28);
+  box-shadow: 0 12px 30px -12px rgba(2, 6, 23, 0.55);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .animate-gentle-blink {
-    animation: none;
-  }
+.wolt-card-soft {
+  background-color: #e4f4fa;
+  border: 1px solid rgba(0, 153, 198, 0.35);
+  box-shadow: 0 8px 24px -12px rgba(11, 27, 43, 0.08);
+}
+
+html.dark .wolt-card-soft {
+  background-color: #1e293b;
+  border: 1px solid rgba(0, 153, 198, 0.35);
+  box-shadow: 0 12px 30px -12px rgba(2, 6, 23, 0.55);
 }

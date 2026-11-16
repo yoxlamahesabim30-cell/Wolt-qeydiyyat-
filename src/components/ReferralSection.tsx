@@ -49,21 +49,21 @@ export const ReferralSection: React.FC = () => {
   return (
     <section
       id="dostunu-getir"
-      className="corporate-gradient border-b border-blue-400/15 py-14 sm:py-20"
+      className="border-b border-[#0099C6]/20 bg-[#F1F5F9] dark:bg-[#0F172A] py-14 sm:py-20 transition-colors"
     >
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
-        <div className="card-surface rounded-3xl p-6 sm:p-10">
+        <div className="wolt-card rounded-3xl p-6 sm:p-10">
           <div className="text-center max-w-2xl mx-auto">
-            <p className="text-xs sm:text-sm font-semibold text-sky-400">
+            <p className="text-xs sm:text-sm font-bold text-[#0099C6]">
               Tövsiyə Proqramı
             </p>
             <h2
-              className="mt-2 font-[var(--font-display)] font-extrabold tracking-tight text-white text-balance"
+              className="mt-2 font-[var(--font-display)] font-extrabold tracking-tight text-[#0B1B2B] dark:text-[#E2E8F0] text-balance"
               style={{ fontSize: 'clamp(1.625rem, 3vw, 2.25rem)' }}
             >
               🤝 Dostunu Gətir, Bonus Qazan!
             </h2>
-            <p className="mt-2.5 text-sm sm:text-base text-slate-300">
+            <p className="mt-2.5 text-sm sm:text-base text-[#334155] dark:text-[#CBD5E1]">
               Qazanmağı tək yemə, dostunla bölüş!
             </p>
           </div>
@@ -73,12 +73,12 @@ export const ReferralSection: React.FC = () => {
             {REFERRAL_STEPS.map((step) => (
               <div
                 key={step.number}
-                className="rounded-2xl border border-blue-400/20 bg-[#040b1a]/80 p-5"
+                className="rounded-2xl border border-[#0099C6]/25 bg-[#EEF2F6] dark:bg-[#0F172A] p-5"
               >
-                <span className="font-[var(--font-display)] text-sm font-extrabold text-sky-400 tabular-nums">
-                  {step.number}.
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#F8FAFC] dark:bg-[#1E293B] font-[var(--font-display)] text-xs font-extrabold text-[#0099C6] tabular-nums shadow-xs">
+                  {step.number}
                 </span>
-                <p className="mt-2 font-[var(--font-display)] text-base font-bold text-white leading-snug">
+                <p className="mt-3 font-[var(--font-display)] text-base font-bold text-[#0B1B2B] dark:text-[#E2E8F0] leading-snug">
                   {step.text}
                 </p>
               </div>
@@ -90,11 +90,11 @@ export const ReferralSection: React.FC = () => {
             <button
               type="button"
               onClick={handleCopyLink}
-              className="inline-flex min-h-[50px] w-full items-center justify-center gap-2 rounded-xl border border-sky-400/40 bg-blue-600 px-5 py-3 text-sm sm:text-base font-bold text-white shadow-md hover:bg-blue-500 active:scale-[0.99] transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
+              className="inline-flex min-h-[50px] w-full items-center justify-center gap-2 rounded-xl bg-[#0099C6] px-5 py-3 text-sm sm:text-base font-bold text-[#F8FAFC] shadow-sm hover:bg-[#007FA6] active:scale-[0.99] transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6]"
             >
               {copied ? (
                 <>
-                  <Check className="h-5 w-5 shrink-0 text-yellow-300" aria-hidden="true" />
+                  <Check className="h-5 w-5 shrink-0 text-[#F8FAFC]" aria-hidden="true" />
                   <span>Link Kopyalandı!</span>
                 </>
               ) : (
@@ -109,16 +109,16 @@ export const ReferralSection: React.FC = () => {
               href={whatsappShareUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-[50px] w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-5 py-3 text-sm sm:text-base font-bold text-slate-950 shadow-md hover:bg-[#20bd5a] active:scale-[0.99] transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
+              className="inline-flex min-h-[50px] w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-5 py-3 text-sm sm:text-base font-bold text-[#0B1B2B] shadow-sm hover:bg-[#20bd5a] active:scale-[0.99] transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
             >
               <MessageCircle className="h-5 w-5 shrink-0" aria-hidden="true" />
               <span>WhatsApp-da Paylaş</span>
             </a>
           </div>
 
-          {/* Bottom Yellow Bonus Box */}
-          <div className="mt-6 rounded-2xl border border-yellow-400/70 bg-yellow-400 px-4 py-4 sm:px-6 sm:py-5 text-center">
-            <p className="font-[var(--font-display)] text-sm sm:text-base font-extrabold text-slate-950 leading-snug">
+          {/* Bottom Soft Light-Blue Bonus Box */}
+          <div className="mt-6 rounded-2xl border-2 border-[#0099C6] bg-[#E4F4FA] dark:bg-[#0F172A] px-4 py-4 sm:px-6 sm:py-5 text-center">
+            <p className="font-[var(--font-display)] text-sm sm:text-base font-extrabold text-[#0B1B2B] dark:text-[#E2E8F0] leading-snug">
               🎁 Hər gətirdiyin dost üçün sənə BONUS düşür! Nə qədər çox dost, o qədər çox bonus!
             </p>
           </div>
