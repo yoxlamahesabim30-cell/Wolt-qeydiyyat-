@@ -1,18 +1,13 @@
 import React from 'react';
-import { Phone, MessageCircle, Shield } from 'lucide-react';
+import { Phone } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
 import { InstagramIcon } from './InstagramIcon';
+import { WhatsAppIcon } from './WhatsAppIcon';
 import { LINKS, NAV_ITEMS, OFFICE_INFO } from '../data/fleetData';
 import { useRegistrationModal } from '../context/RegistrationModalContext';
-import { useSiteConfig } from '../context/SiteConfigContext';
 
-interface FooterProps {
-  onOpenAdmin?: () => void;
-}
-
-export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
+export const Footer: React.FC = () => {
   const { openRegistrationModal } = useRegistrationModal();
-  const { config } = useSiteConfig();
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (href.startsWith('#')) {
       e.preventDefault();
@@ -38,6 +33,29 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
             <p className="mt-4 max-w-sm text-sm text-[#CBD5E1] leading-relaxed">
               Azərbaycanda Wolt kuryer partnyoru. Sərbəst iş qrafiki, şəffaf qazanc sistemi və ödənişsiz qeydiyyat imkanı.
             </p>
+
+            <div className="mt-5 flex flex-wrap items-center gap-3">
+              <a
+                href={LINKS.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Instagram səhifəmiz: ${LINKS.instagramHandle}`}
+                className="inline-flex min-h-[42px] items-center gap-2 rounded-xl border border-[#E2E8F0]/15 bg-[#1E293B] px-3.5 py-2 text-xs font-bold text-[#F8FAFC] hover:border-[#0099C6] hover:bg-[#1E293B]/80 transition-colors"
+              >
+                <InstagramIcon className="h-5 w-5 shrink-0" />
+                <span>Instagram</span>
+              </a>
+              <a
+                href={LINKS.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`WhatsApp ilə əlaqə: ${OFFICE_INFO.whatsappDisplay}`}
+                className="inline-flex min-h-[42px] items-center gap-2 rounded-xl border border-[#25D366]/35 bg-[#1E293B] px-3.5 py-2 text-xs font-bold text-[#F8FAFC] hover:border-[#25D366] hover:bg-[#1E293B]/80 transition-colors"
+              >
+                <WhatsAppIcon variant="brand" className="h-5 w-5 shrink-0" />
+                <span>WhatsApp</span>
+              </a>
+            </div>
           </div>
 
           <div className="md:col-span-3">
@@ -99,9 +117,9 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
                     rel="noopener noreferrer"
                     aria-label={`${OFFICE_INFO.whatsappDisplay} WhatsApp ilə yaz`}
                     title="WhatsApp"
-                    className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#25D366] text-[#0B1B2B] hover:bg-[#20bd5a] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
+                    className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#25D366] text-[#FFFFFF] hover:bg-[#20bd5a] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
                   >
-                    <MessageCircle className="h-3.5 w-3.5" aria-hidden="true" />
+                    <WhatsAppIcon variant="glyph" className="h-4 w-4" />
                   </a>
                 </span>
                 <span className="text-[#E2E8F0] tabular-nums">{OFFICE_INFO.whatsappDisplay}</span>
@@ -122,22 +140,22 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
                     rel="noopener noreferrer"
                     aria-label={`${OFFICE_INFO.phoneDisplay} WhatsApp ilə yaz`}
                     title="WhatsApp"
-                    className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#25D366] text-[#0B1B2B] hover:bg-[#20bd5a] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
+                    className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#25D366] text-[#FFFFFF] hover:bg-[#20bd5a] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
                   >
-                    <MessageCircle className="h-3.5 w-3.5" aria-hidden="true" />
+                    <WhatsAppIcon variant="glyph" className="h-4 w-4" />
                   </a>
                 </span>
                 <span className="text-[#E2E8F0] tabular-nums">{OFFICE_INFO.phoneDisplay}</span>
               </li>
               <li>
                 <a
-                  href={config.instagramPromo.instagramUrl}
+                  href={LINKS.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2.5 text-[#E2E8F0] hover:text-[#0099C6] transition-colors"
                 >
                   <InstagramIcon className="h-6 w-6 shrink-0" />
-                  <span>{config.instagramPromo.instagramHandle}</span>
+                  <span>{LINKS.instagramHandle}</span>
                 </a>
               </li>
               <li className="text-[#CBD5E1]">
@@ -149,19 +167,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
 
         <div className="mt-10 border-t border-[#E2E8F0]/15 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#CBD5E1]">
           <p>© 2026 FLASHLY FLEET. Bütün hüquqlar qorunur.</p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <p>30 Noyabr 2026 tarixinədək qeydiyyat tamamilə ödənişsizdir.</p>
-            {onOpenAdmin && (
-              <button
-                type="button"
-                onClick={onOpenAdmin}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-[#0099C6]/40 bg-[#1E293B] px-3 py-1.5 text-xs font-bold text-[#E2E8F0] hover:border-[#0099C6] hover:text-[#0099C6] transition-colors"
-              >
-                <Shield className="h-3.5 w-3.5 text-[#0099C6]" aria-hidden="true" />
-                <span>Admin Panel</span>
-              </button>
-            )}
-          </div>
+          <p>30 Noyabr 2026 tarixinədək qeydiyyat tamamilə ödənişsizdir.</p>
         </div>
       </div>
     </footer>

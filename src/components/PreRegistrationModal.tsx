@@ -4,13 +4,12 @@ import {
   ArrowUpRight,
   CheckCircle2,
   HelpCircle,
-  MessageCircle,
   ShieldCheck,
   UserCheck,
   X,
 } from 'lucide-react';
 import { LINKS, OFFICE_INFO } from '../data/fleetData';
-import { useSiteConfig } from '../context/SiteConfigContext';
+import { WhatsAppIcon } from './WhatsAppIcon';
 
 interface PreRegistrationModalProps {
   isOpen: boolean;
@@ -30,7 +29,6 @@ export const PreRegistrationModal: React.FC<PreRegistrationModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const { activeRefCode } = useSiteConfig();
   const [step, setStep] = useState<ModalStep>('question');
 
   useEffect(() => {
@@ -111,26 +109,6 @@ export const PreRegistrationModal: React.FC<PreRegistrationModalProps> = ({
                   </p>
                 </div>
               </div>
-
-              {activeRefCode && (
-                <div className="mt-3 rounded-xl border border-[#0099C6]/35 bg-[#EEF2F6] dark:bg-[#0F172A] px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs">
-                  <span className="font-semibold text-[#334155] dark:text-[#CBD5E1]">
-                    Aktiv dəvət kodu:{' '}
-                    <strong className="text-[#0099C6]">{activeRefCode}</strong>
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      onClose();
-                      const el = document.getElementById('dostunu-getir');
-                      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }}
-                    className="font-bold text-[#0099C6] hover:underline"
-                  >
-                    Dəvəti qeyd et →
-                  </button>
-                </div>
-              )}
 
               <div className="mt-5 space-y-3.5">
                 {/* Option 1: Yes, first time -> Opens Registration Form */}
@@ -218,7 +196,7 @@ export const PreRegistrationModal: React.FC<PreRegistrationModalProps> = ({
                   rel="noopener noreferrer"
                   className="inline-flex min-h-[54px] w-full items-center justify-center gap-2.5 rounded-2xl bg-[#25D366] px-6 py-3.5 text-sm sm:text-base font-extrabold text-[#0B1B2B] shadow-md shadow-[#25D366]/25 hover:bg-[#20bd5a] active:scale-[0.99] transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
                 >
-                  <MessageCircle className="h-5 w-5 shrink-0" aria-hidden="true" />
+                  <WhatsAppIcon variant="glyph" className="h-5 w-5 shrink-0" />
                   <span>WhatsApp ilə əlaqə saxla</span>
                 </a>
               </div>

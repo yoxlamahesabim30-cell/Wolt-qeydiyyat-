@@ -1,13 +1,12 @@
 import React from 'react';
-import { MapPin, MessageCircle, Phone, ArrowUpRight, Building2 } from 'lucide-react';
+import { MapPin, Phone, ArrowUpRight, Building2 } from 'lucide-react';
 import { LINKS, OFFICE_INFO } from '../data/fleetData';
 import { InstagramIcon } from './InstagramIcon';
+import { WhatsAppIcon } from './WhatsAppIcon';
 import { useRegistrationModal } from '../context/RegistrationModalContext';
-import { useSiteConfig } from '../context/SiteConfigContext';
 
 export const ContactSection: React.FC = () => {
   const { openRegistrationModal } = useRegistrationModal();
-  const { config } = useSiteConfig();
   return (
     <section
       id="elaqe"
@@ -111,11 +110,11 @@ export const ContactSection: React.FC = () => {
                       rel="noopener noreferrer"
                       className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl bg-[#25D366] px-2 sm:px-3 py-2.5 text-xs sm:text-sm font-bold text-[#0B1B2B] hover:bg-[#20bd5a] transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
                     >
-                      <MessageCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
+                      <WhatsAppIcon variant="glyph" className="h-4 w-4 shrink-0" />
                       <span>WhatsApp</span>
                     </a>
                     <a
-                      href={config.instagramPromo.instagramUrl}
+                      href={LINKS.instagram}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl bg-[#0099C6] px-2 sm:px-3 py-2.5 text-xs sm:text-sm font-bold text-[#F8FAFC] hover:bg-[#007FA6] transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6]"
@@ -149,11 +148,11 @@ export const ContactSection: React.FC = () => {
                       rel="noopener noreferrer"
                       className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl bg-[#25D366] px-2 sm:px-3 py-2.5 text-xs sm:text-sm font-bold text-[#0B1B2B] hover:bg-[#20bd5a] transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
                     >
-                      <MessageCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
+                      <WhatsAppIcon variant="glyph" className="h-4 w-4 shrink-0" />
                       <span>WhatsApp</span>
                     </a>
                     <a
-                      href={config.instagramPromo.instagramUrl}
+                      href={LINKS.instagram}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl bg-[#0099C6] px-2 sm:px-3 py-2.5 text-xs sm:text-sm font-bold text-[#F8FAFC] hover:bg-[#007FA6] transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6]"

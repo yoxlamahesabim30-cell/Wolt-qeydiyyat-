@@ -1,18 +1,17 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   ArrowUpRight,
   Bot,
   CheckCircle2,
   Loader2,
-  MessageCircle,
   RotateCcw,
   Send,
   UserPlus,
   X,
 } from 'lucide-react';
 import { LINKS, OFFICE_INFO } from '../data/fleetData';
-import { useSiteConfig } from '../context/SiteConfigContext';
 import { useRegistrationModal } from '../context/RegistrationModalContext';
+import { WhatsAppIcon } from './WhatsAppIcon';
 
 interface ChatMessage {
   id: string;
@@ -21,6 +20,12 @@ interface ChatMessage {
   status?: 'ANSWERED' | 'UNKNOWN' | 'ERROR';
   whatsappUrl?: string;
   sourceQuestion?: string;
+}
+
+interface ChatbotWidgetProps {
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
 }
 
 const QUICK_PROMPTS = [
@@ -32,7 +37,12 @@ const QUICK_PROMPTS = [
   'Başqa sualım var.',
 ] as const;
 
-const CHAT_AUTOOPEN_SEEN_KEY = 'flashly_chat_autopen_seen';
+const INITIAL_GREETING: ChatMessage = {
+  id: 'welcome-msg',
+  role: 'assistant',
+  text: 'Salam! Mən FLASHLY FLEET köməkçisiyəm. Wolt kuryer qeydiyyatı, sənədlər, iş prosesi və ödənişlər barədə sizə kömək edə bilərəm. Aşağıdakı mövzulardan birini seçin və ya sualınızı yazın.',
+  status: 'ANSWERED',
+};
 
 function createSessionId(): string {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
@@ -41,23 +51,14 @@ function createSessionId(): string {
   return `sess_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 }
 
-export const ChatbotWidget: React.FC = () => {
-  const { config, configLoaded, igPopupOpen } = useSiteConfig();
+export const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
+  isOpen,
+  onOpen,
+  onClose,
+}) => {
   const { openRegistrationModal } = useRegistrationModal();
-  const { chatbotSettings } = config;
 
-  const initialGreeting: ChatMessage = useMemo(
-    () => ({
-      id: 'welcome-msg',
-      role: 'assistant',
-      text: chatbotSettings.greetingText,
-      status: 'ANSWERED',
-    }),
-    [chatbotSettings.greetingText]
-  );
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([initialGreeting]);
+  const [messages, setMessages] = useState<ChatMessage[]>([INITIAL_GREETING]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [sessionId, setSessionId] = useState<string>(() => createSessionId());
@@ -76,62 +77,6 @@ export const ChatbotWidget: React.FC = () => {
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const userInteractedRef = useRef(false);
-
-  // Sync welcome text when admin updates greeting while still on initial screen
-  useEffect(() => {
-    setMessages((prev) => {
-      if (prev.length === 1 && prev[0].id === 'welcome-msg') {
-        return [initialGreeting];
-      }
-      return prev;
-    });
-  }, [initialGreeting]);
-
-  // Close chatbot if admin disables it
-  useEffect(() => {
-    if (configLoaded && !chatbotSettings.enabled) {
-      setIsOpen(false);
-    }
-  }, [configLoaded, chatbotSettings.enabled]);
-
-  // One-time auto-greeting 3-5 seconds after landing (deferred if Instagram promo popup is open)
-  useEffect(() => {
-    if (!configLoaded || !chatbotSettings.enabled) return;
-    if (typeof window === 'undefined') return;
-    if (igPopupOpen) return;
-
-    try {
-      if (window.localStorage.getItem(CHAT_AUTOOPEN_SEEN_KEY) === '1') {
-        return;
-      }
-    } catch {
-      return;
-    }
-
-    const igSeenAlready = (() => {
-      try {
-        return window.localStorage.getItem('flashly_ig_popup_seen') === '1';
-      } catch {
-        return true;
-      }
-    })();
-
-    // Wait 4.2s on clean visit, or 1.4s after Instagram popup just closed
-    const delayMs = igSeenAlready ? 1400 : 4200;
-
-    const timer = window.setTimeout(() => {
-      if (userInteractedRef.current) return;
-      try {
-        window.localStorage.setItem(CHAT_AUTOOPEN_SEEN_KEY, '1');
-      } catch {
-        // ignore storage error
-      }
-      setIsOpen(true);
-    }, delayMs);
-
-    return () => window.clearTimeout(timer);
-  }, [configLoaded, chatbotSettings.enabled, igPopupOpen]);
 
   useEffect(() => {
     if (isOpen) {
@@ -148,31 +93,16 @@ export const ChatbotWidget: React.FC = () => {
     }
   }, [isOpen, inquiryOpen]);
 
-  if (configLoaded && !chatbotSettings.enabled) {
-    return null;
-  }
-
-  const markAutoOpenSeen = () => {
-    userInteractedRef.current = true;
-    try {
-      window.localStorage.setItem(CHAT_AUTOOPEN_SEEN_KEY, '1');
-    } catch {
-      // ignore
-    }
-  };
-
   const handleOpenChat = () => {
-    markAutoOpenSeen();
-    setIsOpen(true);
+    onOpen();
   };
 
   const handleCloseChat = () => {
-    markAutoOpenSeen();
-    setIsOpen(false);
+    onClose();
   };
 
   const handleResetChat = () => {
-    setMessages([initialGreeting]);
+    setMessages([INITIAL_GREETING]);
     setSessionId(createSessionId());
     setInquiryOpen(false);
     setInquiryResult(null);
@@ -431,7 +361,7 @@ export const ChatbotWidget: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => {
-                            setIsOpen(false);
+                            onClose();
                             openRegistrationModal();
                           }}
                           className="inline-flex min-h-[38px] w-full items-center justify-center gap-1.5 rounded-xl bg-[#0099C6] px-3 py-2 text-xs font-extrabold text-[#F8FAFC] hover:bg-[#007FA6] transition-colors"
@@ -455,7 +385,7 @@ export const ChatbotWidget: React.FC = () => {
                           rel="noopener noreferrer"
                           className="inline-flex min-h-[40px] w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-3 py-2 text-xs font-extrabold text-[#0B1B2B] shadow-xs hover:bg-[#20bd5a] transition-colors"
                         >
-                          <MessageCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
+                          <WhatsAppIcon variant="glyph" className="h-4 w-4 shrink-0" />
                           <span>WhatsApp ({OFFICE_INFO.whatsappDisplay})</span>
                         </a>
 

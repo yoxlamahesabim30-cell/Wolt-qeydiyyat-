@@ -1,15 +1,14 @@
 import React from 'react';
-import { Camera, MessageCircle, ArrowUpRight } from 'lucide-react';
+import { Camera, ArrowUpRight } from 'lucide-react';
 import { InstagramIcon } from './InstagramIcon';
+import { WhatsAppIcon } from './WhatsAppIcon';
 import { LINKS } from '../data/fleetData';
-import { useSiteConfig } from '../context/SiteConfigContext';
 
 const INSTAGRAM_BONUS_WHATSAPP_URL = `${LINKS.whatsapp}?text=${encodeURIComponent(
   'Salam! Instagram-da sizi izlədim, bonusumu almaq istəyirəm 📸'
 )}`;
 
 export const InstagramBonusSection: React.FC = () => {
-  const { config } = useSiteConfig();
   return (
     <section
       id="instagram-bonus"
@@ -25,7 +24,7 @@ export const InstagramBonusSection: React.FC = () => {
                 <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#E4F4FA] dark:bg-[#0F172A]">
                   <InstagramIcon className="h-5 w-5 shrink-0" />
                 </span>
-                <span>{config.instagramPromo.instagramHandle}</span>
+                <span>{LINKS.instagramHandle}</span>
               </div>
 
               <h2
@@ -54,14 +53,14 @@ export const InstagramBonusSection: React.FC = () => {
                 </div>
 
                 <a
-                  href={config.instagramPromo.instagramUrl}
+                  href={LINKS.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-5 inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-[#0099C6] px-4 py-3 text-sm font-bold text-[#F8FAFC] shadow-sm hover:bg-[#007FA6] active:scale-[0.99] transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6]"
                 >
                   <InstagramIcon className="h-5 w-5 shrink-0" />
                   <span className="truncate">
-                    {config.instagramPromo.instagramHandle} - Instagram-da İzlə
+                    {LINKS.instagramHandle} - Instagram-da İzlə
                   </span>
                   <ArrowUpRight className="h-4 w-4 shrink-0" aria-hidden="true" />
                 </a>
@@ -106,7 +105,7 @@ export const InstagramBonusSection: React.FC = () => {
                   rel="noopener noreferrer"
                   className="mt-5 inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-4 py-3 text-sm font-bold text-[#0B1B2B] shadow-sm hover:bg-[#20bd5a] active:scale-[0.99] transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
                 >
-                  <MessageCircle className="h-5 w-5 shrink-0" aria-hidden="true" />
+                  <WhatsAppIcon variant="glyph" className="h-5 w-5 shrink-0" />
                   <span>Screenshot-u Göndər - WhatsApp</span>
                 </a>
               </div>

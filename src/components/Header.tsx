@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowUpRight, Phone, MessageCircle, Clock, Moon, Sun } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Phone, Clock, Moon, Sun } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
 import { InstagramIcon } from './InstagramIcon';
+import { WhatsAppIcon } from './WhatsAppIcon';
 import { LINKS, NAV_ITEMS, OFFICE_INFO } from '../data/fleetData';
 import { useRegistrationModal } from '../context/RegistrationModalContext';
-import { useSiteConfig } from '../context/SiteConfigContext';
 
 interface CountdownTime {
   days: number;
@@ -28,7 +28,6 @@ function getRemainingTime(): CountdownTime {
 
 export const Header: React.FC = () => {
   const { openRegistrationModal } = useRegistrationModal();
-  const { config } = useSiteConfig();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [countdown, setCountdown] = useState<CountdownTime>(() => getRemainingTime());
   const [isDark, setIsDark] = useState<boolean>(() => {
@@ -149,14 +148,25 @@ export const Header: React.FC = () => {
             </button>
 
             <a
-              href={config.instagramPromo.instagramUrl}
+              href={LINKS.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`Instagram səhifəmiz: ${config.instagramPromo.instagramHandle}`}
-              title={`Instagram: ${config.instagramPromo.instagramHandle}`}
+              aria-label={`Instagram səhifəmiz: ${LINKS.instagramHandle}`}
+              title={`Instagram: ${LINKS.instagramHandle}`}
               className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#0099C6]/35 bg-[#E4F4FA] dark:bg-[#0F172A] hover:border-[#0099C6] hover:scale-105 active:scale-95 transition-all duration-150 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6]"
             >
               <InstagramIcon className="h-5 w-5" />
+            </a>
+
+            <a
+              href={LINKS.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`WhatsApp ilə əlaqə: ${OFFICE_INFO.whatsappDisplay}`}
+              title={`WhatsApp: ${OFFICE_INFO.whatsappDisplay}`}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#25D366]/45 bg-[#E4F4FA] dark:bg-[#0F172A] hover:border-[#25D366] hover:scale-105 active:scale-95 transition-all duration-150 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366]"
+            >
+              <WhatsAppIcon variant="brand" className="h-5 w-5" />
             </a>
 
             <button
@@ -226,18 +236,29 @@ export const Header: React.FC = () => {
                   onClick={() => setMobileMenuOpen(false)}
                   className="flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-[#25D366] px-3 py-2.5 text-xs font-bold text-[#0B1B2B] hover:bg-[#20bd5a] transition-colors"
                 >
-                  <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                  <WhatsAppIcon variant="glyph" className="h-4 w-4 shrink-0" />
                   <span>WhatsApp</span>
                 </a>
                 <a
-                  href={LINKS.phoneHref}
+                  href={LINKS.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-[#0099C6] px-3 py-2.5 text-xs font-bold text-[#F8FAFC] hover:bg-[#007FA6] transition-colors"
+                  className="flex min-h-[44px] items-center justify-center gap-2 rounded-xl border border-[#0099C6]/35 bg-[#E4F4FA] dark:bg-[#0F172A] px-3 py-2.5 text-xs font-bold text-[#0B1B2B] dark:text-[#E2E8F0] hover:border-[#0099C6] transition-colors"
                 >
-                  <Phone className="h-4 w-4" aria-hidden="true" />
-                  <span>{OFFICE_INFO.phoneDisplay}</span>
+                  <InstagramIcon className="h-4 w-4 shrink-0" />
+                  <span>Instagram</span>
                 </a>
               </div>
+
+              <a
+                href={LINKS.phoneHref}
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-[#0099C6] px-3 py-2.5 text-xs font-bold text-[#F8FAFC] hover:bg-[#007FA6] transition-colors"
+              >
+                <Phone className="h-4 w-4" aria-hidden="true" />
+                <span>{OFFICE_INFO.phoneDisplay}</span>
+              </a>
             </div>
           </div>
         )}
