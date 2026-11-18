@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Check, Play, Volume2, Youtube } from 'lucide-react';
 import { LINKS, REGISTRATION_REQUIREMENTS } from '../data/fleetData';
+import { useRegistrationModal } from '../context/RegistrationModalContext';
 import videoPreviewImg from '../assets/images/video_registration_preview_1794716674989.jpg';
 
 function buildGoogleTtsUrl(text: string): string {
@@ -10,6 +11,7 @@ function buildGoogleTtsUrl(text: string): string {
 }
 
 export const RequirementsSection: React.FC = () => {
+  const { openRegistrationModal } = useRegistrationModal();
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
   const [speakingId, setSpeakingId] = useState<string | null>(null);
   const [thumbError, setThumbError] = useState(false);
@@ -184,15 +186,14 @@ export const RequirementsSection: React.FC = () => {
               <p className="text-xs sm:text-sm font-semibold text-[#334155] dark:text-[#CBD5E1]">
                 30 Noyabr 2026 tarixinədək qeydiyyat tamamilə ödənişsizdir.
               </p>
-              <a
-                href={LINKS.registration}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={openRegistrationModal}
                 className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-xl bg-[#0099C6] px-5 py-3 text-sm font-bold text-[#F8FAFC] shadow-sm hover:bg-[#007FA6] transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6]"
               >
                 <span>Qeydiyyat Formunu Aç</span>
                 <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-              </a>
+              </button>
             </div>
           </div>
 

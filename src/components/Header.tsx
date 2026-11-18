@@ -3,6 +3,8 @@ import { Menu, X, ArrowUpRight, Phone, MessageCircle, Clock, Moon, Sun } from 'l
 import { BrandLogo } from './BrandLogo';
 import { InstagramIcon } from './InstagramIcon';
 import { LINKS, NAV_ITEMS, OFFICE_INFO } from '../data/fleetData';
+import { useRegistrationModal } from '../context/RegistrationModalContext';
+import { useSiteConfig } from '../context/SiteConfigContext';
 
 interface CountdownTime {
   days: number;
@@ -25,6 +27,8 @@ function getRemainingTime(): CountdownTime {
 }
 
 export const Header: React.FC = () => {
+  const { openRegistrationModal } = useRegistrationModal();
+  const { config } = useSiteConfig();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [countdown, setCountdown] = useState<CountdownTime>(() => getRemainingTime());
   const [isDark, setIsDark] = useState<boolean>(() => {
@@ -80,10 +84,9 @@ export const Header: React.FC = () => {
       {/* Soft Wolt Blue Gradient Announcement Strip */}
       <div className="bg-gradient-to-r from-[#0099C6] to-[#007FA6] text-[#F8FAFC]">
         <div className="mx-auto max-w-6xl px-4 py-2 text-center">
-          <a
-            href={LINKS.registration}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
+            onClick={openRegistrationModal}
             className="inline-flex flex-col items-center justify-center gap-0.5 hover:opacity-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F8FAFC] rounded"
           >
             <span className="font-[var(--font-display)] text-base sm:text-lg font-extrabold tracking-wide text-[#F8FAFC]">
@@ -95,7 +98,7 @@ export const Header: React.FC = () => {
                 Qalan vaxt: {countdown.days} gün {formattedHours} saat {formattedMinutes} dəq {formattedSeconds} san
               </span>
             </span>
-          </a>
+          </button>
         </div>
       </div>
 
@@ -146,25 +149,24 @@ export const Header: React.FC = () => {
             </button>
 
             <a
-              href={LINKS.instagram}
+              href={config.instagramPromo.instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`Instagram səhifəmiz: ${LINKS.instagramHandle}`}
-              title={`Instagram: ${LINKS.instagramHandle}`}
+              aria-label={`Instagram səhifəmiz: ${config.instagramPromo.instagramHandle}`}
+              title={`Instagram: ${config.instagramPromo.instagramHandle}`}
               className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#0099C6]/35 bg-[#E4F4FA] dark:bg-[#0F172A] hover:border-[#0099C6] hover:scale-105 active:scale-95 transition-all duration-150 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6]"
             >
               <InstagramIcon className="h-5 w-5" />
             </a>
 
-            <a
-              href={LINKS.registration}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={openRegistrationModal}
               className="inline-flex min-h-[40px] items-center justify-center gap-1.5 rounded-xl bg-[#0099C6] px-3.5 sm:px-4 py-2 text-xs sm:text-sm font-bold text-[#F8FAFC] shadow-sm hover:bg-[#007FA6] active:scale-[0.99] transition-all duration-150 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6]"
             >
               <span>Qeydiyyat</span>
               <ArrowUpRight className="h-4 w-4 shrink-0" aria-hidden="true" />
-            </a>
+            </button>
 
             <button
               type="button"
@@ -204,16 +206,17 @@ export const Header: React.FC = () => {
             </nav>
 
             <div className="mt-4 grid grid-cols-1 gap-2.5 border-t border-[#0099C6]/20 pt-4">
-              <a
-                href={LINKS.registration}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setMobileMenuOpen(false)}
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  openRegistrationModal();
+                }}
                 className="flex min-h-[46px] items-center justify-center gap-2 rounded-xl bg-[#0099C6] px-4 py-3 text-sm font-bold text-[#F8FAFC] hover:bg-[#007FA6] transition-colors"
               >
-                <span>Qeydiyyatdan Keç</span>
+                <span>Kuryer kimi qeydiyyatdan keç</span>
                 <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-              </a>
+              </button>
 
               <div className="grid grid-cols-2 gap-2.5">
                 <a

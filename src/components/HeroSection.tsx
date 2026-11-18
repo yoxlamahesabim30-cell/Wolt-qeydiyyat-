@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, ArrowDown, ChevronLeft, ChevronRight, Zap } from 'lucide-react';
-import { HERO_STATS, LINKS } from '../data/fleetData';
+import { HERO_STATS } from '../data/fleetData';
+import { useRegistrationModal } from '../context/RegistrationModalContext';
 import bicycleCourierImg from '../assets/images/courier_bicycle_baku_1794724802709.jpg';
 import scooterCourierImg from '../assets/images/courier_scooter_baku_1794724803116.jpg';
 import motorcycleCourierImg from '../assets/images/courier_motorcycle_baku_1794724804350.jpg';
@@ -46,6 +47,7 @@ const TRANSPORT_SLIDES: TransportSlide[] = [
 ];
 
 export const HeroSection: React.FC = () => {
+  const { openRegistrationModal } = useRegistrationModal();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [failedSlides, setFailedSlides] = useState<Record<string, boolean>>({});
@@ -135,15 +137,14 @@ export const HeroSection: React.FC = () => {
             </p>
 
             <div className="mt-7 flex flex-col sm:flex-row sm:items-center gap-3.5">
-              <a
-                href={LINKS.registration}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-[#0099C6] px-6 py-3.5 text-sm sm:text-base font-bold text-[#F8FAFC] shadow-md shadow-[#0099C6]/25 hover:bg-[#007FA6] active:scale-[0.99] transition-all duration-150 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6]"
+              <button
+                type="button"
+                onClick={openRegistrationModal}
+                className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-[#0099C6] px-6 py-3.5 text-sm sm:text-base font-bold text-[#F8FAFC] shadow-md shadow-[#0099C6]/25 hover:bg-[#007FA6] active:scale-[0.99] transition-all duration-150 sm:whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6]"
               >
-                <span>Qeydiyyatdan Keç</span>
+                <span>Kuryer kimi qeydiyyatdan keç</span>
                 <ArrowUpRight className="h-5 w-5 shrink-0" aria-hidden="true" />
-              </a>
+              </button>
 
               <a
                 href="#qazanc"

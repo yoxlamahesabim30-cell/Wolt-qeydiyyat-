@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Calculator, ArrowUpRight, ShieldCheck } from 'lucide-react';
-import { DEPOSIT_DETAILS, LINKS } from '../data/fleetData';
+import { DEPOSIT_DETAILS } from '../data/fleetData';
+import { useRegistrationModal } from '../context/RegistrationModalContext';
 
 type PayoutMode = 'daily' | 'fifteenDays';
 
 const PRESET_AMOUNTS = [30, 50, 80, 120] as const;
 
 export const EarningsSection: React.FC = () => {
+  const { openRegistrationModal } = useRegistrationModal();
   const [payoutMode, setPayoutMode] = useState<PayoutMode>('daily');
   const [amountInput, setAmountInput] = useState<string>('50');
 
@@ -247,15 +249,14 @@ export const EarningsSection: React.FC = () => {
               </div>
             </div>
 
-            <a
-              href={LINKS.registration}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={openRegistrationModal}
               className="mt-6 inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-[#0099C6] px-4 py-2.5 text-sm font-bold text-[#F8FAFC] hover:bg-[#007FA6] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6]"
             >
               <span>İndi Qeydiyyatdan Keç</span>
               <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-            </a>
+            </button>
           </div>
         </div>
 

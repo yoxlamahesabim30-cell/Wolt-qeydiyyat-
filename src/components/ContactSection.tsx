@@ -2,8 +2,12 @@ import React from 'react';
 import { MapPin, MessageCircle, Phone, ArrowUpRight, Building2 } from 'lucide-react';
 import { LINKS, OFFICE_INFO } from '../data/fleetData';
 import { InstagramIcon } from './InstagramIcon';
+import { useRegistrationModal } from '../context/RegistrationModalContext';
+import { useSiteConfig } from '../context/SiteConfigContext';
 
 export const ContactSection: React.FC = () => {
+  const { openRegistrationModal } = useRegistrationModal();
+  const { config } = useSiteConfig();
   return (
     <section
       id="elaqe"
@@ -62,15 +66,14 @@ export const ContactSection: React.FC = () => {
             </div>
 
             <div className="mt-8 border-t border-[#0099C6]/20 pt-5">
-              <a
-                href={LINKS.registration}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={openRegistrationModal}
                 className="inline-flex min-h-[46px] w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-[#0099C6] px-6 py-3 text-sm font-bold text-[#F8FAFC] shadow-sm hover:bg-[#007FA6] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6]"
               >
                 <span>Onlayn Qeydiyyatdan Keç</span>
                 <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-              </a>
+              </button>
             </div>
           </div>
 
@@ -112,7 +115,7 @@ export const ContactSection: React.FC = () => {
                       <span>WhatsApp</span>
                     </a>
                     <a
-                      href={LINKS.instagram}
+                      href={config.instagramPromo.instagramUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl bg-[#0099C6] px-2 sm:px-3 py-2.5 text-xs sm:text-sm font-bold text-[#F8FAFC] hover:bg-[#007FA6] transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6]"
@@ -150,7 +153,7 @@ export const ContactSection: React.FC = () => {
                       <span>WhatsApp</span>
                     </a>
                     <a
-                      href={LINKS.instagram}
+                      href={config.instagramPromo.instagramUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl bg-[#0099C6] px-2 sm:px-3 py-2.5 text-xs sm:text-sm font-bold text-[#F8FAFC] hover:bg-[#007FA6] transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0099C6]"

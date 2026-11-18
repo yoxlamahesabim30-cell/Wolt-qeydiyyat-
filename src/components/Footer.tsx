@@ -1,10 +1,18 @@
 import React from 'react';
-import { Phone, MessageCircle } from 'lucide-react';
+import { Phone, MessageCircle, Shield } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
 import { InstagramIcon } from './InstagramIcon';
 import { LINKS, NAV_ITEMS, OFFICE_INFO } from '../data/fleetData';
+import { useRegistrationModal } from '../context/RegistrationModalContext';
+import { useSiteConfig } from '../context/SiteConfigContext';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  onOpenAdmin?: () => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
+  const { openRegistrationModal } = useRegistrationModal();
+  const { config } = useSiteConfig();
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (href.startsWith('#')) {
       e.preventDefault();
@@ -57,14 +65,13 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="mt-3 space-y-2.5 text-sm">
               <li>
-                <a
-                  href={LINKS.registration}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#0099C6] font-bold hover:text-[#F8FAFC] transition-colors"
+                <button
+                  type="button"
+                  onClick={openRegistrationModal}
+                  className="text-left text-[#0099C6] font-bold hover:text-[#F8FAFC] transition-colors"
                 >
                   Onlayn Qeydiyyat Formu
-                </a>
+                </button>
               </li>
               <li>
                 <a
@@ -124,13 +131,13 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <a
-                  href={LINKS.instagram}
+                  href={config.instagramPromo.instagramUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2.5 text-[#E2E8F0] hover:text-[#0099C6] transition-colors"
                 >
                   <InstagramIcon className="h-6 w-6 shrink-0" />
-                  <span>{LINKS.instagramHandle}</span>
+                  <span>{config.instagramPromo.instagramHandle}</span>
                 </a>
               </li>
               <li className="text-[#CBD5E1]">
@@ -142,7 +149,19 @@ export const Footer: React.FC = () => {
 
         <div className="mt-10 border-t border-[#E2E8F0]/15 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#CBD5E1]">
           <p>© 2026 FLASHLY FLEET. Bütün hüquqlar qorunur.</p>
-          <p>30 Noyabr 2026 tarixinədək qeydiyyat tamamilə ödənişsizdir.</p>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <p>30 Noyabr 2026 tarixinədək qeydiyyat tamamilə ödənişsizdir.</p>
+            {onOpenAdmin && (
+              <button
+                type="button"
+                onClick={onOpenAdmin}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-[#0099C6]/40 bg-[#1E293B] px-3 py-1.5 text-xs font-bold text-[#E2E8F0] hover:border-[#0099C6] hover:text-[#0099C6] transition-colors"
+              >
+                <Shield className="h-3.5 w-3.5 text-[#0099C6]" aria-hidden="true" />
+                <span>Admin Panel</span>
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </footer>
