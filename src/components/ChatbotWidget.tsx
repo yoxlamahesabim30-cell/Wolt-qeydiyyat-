@@ -10,6 +10,11 @@ import {
   X,
 } from 'lucide-react';
 import { LINKS, OFFICE_INFO } from '../data/fleetData';
+import {
+  UNKNOWN_FALLBACK_REPLY,
+  buildWhatsappSupportUrl,
+  matchVerifiedStarterReply,
+} from '../data/knowledgeBase';
 import { useRegistrationModal } from '../context/RegistrationModalContext';
 import { WhatsAppIcon } from './WhatsAppIcon';
 
@@ -73,6 +78,7 @@ export const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
   const [inquiryResult, setInquiryResult] = useState<{
     type: 'success' | 'error';
     text: string;
+    whatsappUrl?: string;
   } | null>(null);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
@@ -143,6 +149,37 @@ export const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
         }),
       });
 
+      const contentType = res.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        const fallback = matchVerifiedStarterReply(trimmed);
+        if (fallback) {
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: `a_${Date.now()}`,
+              role: 'assistant',
+              text: fallback.reply,
+              status: 'ANSWERED',
+              whatsappUrl: buildWhatsappSupportUrl(trimmed),
+              sourceQuestion: trimmed,
+            },
+          ]);
+        } else {
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: `a_${Date.now()}`,
+              role: 'assistant',
+              text: UNKNOWN_FALLBACK_REPLY,
+              status: 'UNKNOWN',
+              whatsappUrl: buildWhatsappSupportUrl(trimmed),
+              sourceQuestion: trimmed,
+            },
+          ]);
+        }
+        return;
+      }
+
       const data = (await res.json()) as {
         status?: 'ANSWERED' | 'UNKNOWN';
         reply?: string;
@@ -160,11 +197,7 @@ export const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
               data.error ||
               'Hazırda cavab vermək mümkün olmadı. Dəqiq məlumat üçün WhatsApp vasitəsilə əməkdaşlarımızla əlaqə saxlayın.',
             status: 'ERROR',
-            whatsappUrl:
-              data.whatsappUrl ||
-              `${LINKS.whatsapp}?text=${encodeURIComponent(
-                `Salam. FLASHLY FLEET saytındakı köməkçidən yazıram. Sualım: "${trimmed}"`
-              )}`,
+            whatsappUrl: data.whatsappUrl || buildWhatsappSupportUrl(trimmed),
             sourceQuestion: trimmed,
           },
         ]);
@@ -177,25 +210,36 @@ export const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
         {
           id: `a_${Date.now()}`,
           role: 'assistant',
-          text:
-            data.reply ||
-            'Bu sual barədə hazırda təsdiqlənmiş məlumatım yoxdur. Dəqiq məlumat üçün əməkdaşlarımızla əlaqə saxlayın.',
+          text: data.reply || UNKNOWN_FALLBACK_REPLY,
           status: replyStatus,
           whatsappUrl: data.whatsappUrl,
           sourceQuestion: trimmed,
         },
       ]);
     } catch {
+      const fallback = matchVerifiedStarterReply(trimmed);
+      if (fallback) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: `a_${Date.now()}`,
+            role: 'assistant',
+            text: fallback.reply,
+            status: 'ANSWERED',
+            whatsappUrl: buildWhatsappSupportUrl(trimmed),
+            sourceQuestion: trimmed,
+          },
+        ]);
+        return;
+      }
       setMessages((prev) => [
         ...prev,
         {
           id: `err_${Date.now()}`,
           role: 'assistant',
-          text: 'Şəbəkə bağlantısı zamanı xəta baş verdi. Zəhmət olmasa WhatsApp vasitəsilə əməkdaşlarımızla əlaqə saxlayın.',
-          status: 'ERROR',
-          whatsappUrl: `${LINKS.whatsapp}?text=${encodeURIComponent(
-            `Salam. FLASHLY FLEET saytındakı köməkçidən yazıram. Sualım: "${trimmed}"`
-          )}`,
+          text: UNKNOWN_FALLBACK_REPLY,
+          status: 'UNKNOWN',
+          whatsappUrl: buildWhatsappSupportUrl(trimmed),
           sourceQuestion: trimmed,
         },
       ]);
@@ -240,6 +284,17 @@ export const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
           sourceQuestion: inquirySourceQuestion || undefined,
         }),
       });
+      const contentType = res.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        const waText = `Salam! FLASHLY FLEET saytından müraciət edirəm.\nAd: ${inquiryName.trim()}\nNömrə: ${inquiryPhone.trim()}\nSual: ${inquiryMessage.trim()}`;
+        setInquiryResult({
+          type: 'success',
+          text: 'Müraciətiniz hazırdır! Aşağıdakı WhatsApp düyməsinə klikləyərək birbaşa göndərin.',
+          whatsappUrl: `${LINKS.whatsapp}?text=${encodeURIComponent(waText)}`,
+        });
+        return;
+      }
+
       const data = (await res.json()) as { success?: boolean; error?: string };
 
       if (!res.ok) {
@@ -454,9 +509,22 @@ export const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({
                 </div>
 
                 {inquiryResult?.type === 'success' ? (
-                  <div className="mt-2.5 flex items-start gap-2 rounded-xl bg-[#E4F4FA] dark:bg-[#0F172A] p-3 text-xs font-semibold text-[#0B1B2B] dark:text-[#E2E8F0]">
-                    <CheckCircle2 className="h-4 w-4 shrink-0 text-[#0099C6] mt-0.5" aria-hidden="true" />
-                    <span>{inquiryResult.text}</span>
+                  <div className="mt-2.5 space-y-2 rounded-xl bg-[#E4F4FA] dark:bg-[#0F172A] p-3 text-xs font-semibold text-[#0B1B2B] dark:text-[#E2E8F0]">
+                    <div className="flex items-start gap-2">
+                      <CheckCircle2 className="h-4 w-4 shrink-0 text-[#0099C6] mt-0.5" aria-hidden="true" />
+                      <span>{inquiryResult.text}</span>
+                    </div>
+                    {inquiryResult.whatsappUrl && (
+                      <a
+                        href={inquiryResult.whatsappUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex min-h-[36px] w-full items-center justify-center gap-1.5 rounded-xl bg-[#25D366] px-3 py-1.5 text-xs font-extrabold text-[#0B1B2B] hover:bg-[#20bd5a] transition-colors"
+                      >
+                        <WhatsAppIcon variant="glyph" className="h-4 w-4 shrink-0" />
+                        <span>WhatsApp ilə Göndər</span>
+                      </a>
+                    )}
                   </div>
                 ) : (
                   <form onSubmit={handleInquirySubmit} className="mt-2.5 space-y-2">

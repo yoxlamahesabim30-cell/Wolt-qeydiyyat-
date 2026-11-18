@@ -5,6 +5,15 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import express from 'express';
 import { GoogleGenAI, ThinkingLevel, Type } from '@google/genai';
+import {
+  type KnowledgeEntry,
+  VERIFIED_KNOWLEDGE_BASE,
+  WHATSAPP_NUMBER_DISPLAY,
+  UNKNOWN_FALLBACK_REPLY,
+  buildWhatsappSupportUrl,
+  formatKnowledgeBaseForPrompt,
+  matchVerifiedStarterReply,
+} from './src/data/knowledgeBase';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,20 +21,6 @@ const __dirname = path.dirname(__filename);
 const PORT = Number(process.env.PORT || 3000);
 const DATA_DIR = path.join(__dirname, 'data');
 const STORE_PATH = path.join(DATA_DIR, 'chatbot-store.json');
-
-const WHATSAPP_NUMBER_DISPLAY = '+994 99 800 75 65';
-const WHATSAPP_BASE_URL = 'https://wa.me/994998007565';
-const INSTAGRAM_URL = 'https://www.instagram.com/woltqeydiyyati/';
-const UNKNOWN_FALLBACK_REPLY =
-  'Bu sual barədə hazırda təsdiqlənmiş məlumatım yoxdur. Dəqiq məlumat üçün əməkdaşlarımızla əlaqə saxlayın.';
-
-interface KnowledgeEntry {
-  id: string;
-  category: string;
-  question: string;
-  answer: string;
-  updatedAt: string;
-}
 
 interface ChatLogEntry {
   id: string;
@@ -53,90 +48,7 @@ interface ChatbotStore {
   inquiries: UserInquiryEntry[];
 }
 
-const DEFAULT_KNOWLEDGE_BASE: KnowledgeEntry[] = [
-  {
-    id: 'kb-registration-free',
-    category: 'Qeydiyyat',
-    question:
-      'FLASHLY FLEET-də Wolt kuryer qeydiyyatı ödənişlidirmi və necə qeydiyyatdan keçmək olar?',
-    answer:
-      '30 Noyabr 2026 tarixinədək FLASHLY FLEET-də Wolt kuryer qeydiyyatı tamamilə ödənişsizdir (0 AZN). İlk dəfə qeydiyyatdan keçirsinizsə, saytdakı "Kuryer kimi qeydiyyatdan keç" düyməsinə basıb "BƏLİ, İLK DƏFƏ QEYDİYYATDAN KEÇİRƏM" seçimini edərək rəsmi onlayn formaya (https://forms.gle/jmeGxgsDB4GYj4t48) keçə bilərsiniz.',
-    updatedAt: '2026-11-17T00:00:00.000Z',
-  },
-  {
-    id: 'kb-previous-courier',
-    category: 'Qeydiyyat',
-    question:
-      'Əvvəllər Wolt-da qeydiyyatdan keçmişəm və ya işləmişəm, yenidən qeydiyyatdan keçə bilərəmmi?',
-    answer:
-      'Əgər əvvəllər Wolt platformasında qeydiyyatdan keçmisinizsə və ya kuryer kimi fəaliyyət göstərmisinizsə, yeni qeydiyyat yaratmayın. Əvvəlcə +994 99 800 75 65 WhatsApp nömrəsi vasitəsilə FLASHLY FLEET komandası ilə əlaqə saxlayın — müraciətiniz yoxlanılacaq və növbəti addımlar barədə sizə məlumat veriləcək.',
-    updatedAt: '2026-11-17T00:00:00.000Z',
-  },
-  {
-    id: 'kb-required-documents',
-    category: 'Sənədlər',
-    question: 'Wolt kuryeri olmaq üçün hansı sənədlər və şərtlər tələb olunur?',
-    answer:
-      'Tələb olunan 6 əsas şərt bunlardır: 1) Şəxsiyyət vəsiqəsinin ön və arxa tərəfinin aydın fotosu; 2) Aydın görünən yeni selfi fotoşəkli; 3) Aktiv telefon nömrəsi; 4) Aktiv Gmail hesabı; 5) Əvvəllər Wolt platformasında qeydiyyatdan keçməmiş olmaq; 6) Maaş ödənişləri üçün aktiv M10 nömrəsi. 18 yaşdan yuxarı şəxslər qoşula bilər. Sənədi olmayan namizədlərə qeydiyyatdan keçdikdə sənəd almaqda dəstək göstərilir.',
-    updatedAt: '2026-11-17T00:00:00.000Z',
-  },
-  {
-    id: 'kb-schedule-vehicles',
-    category: 'İş qrafiki',
-    question: 'İş qrafiki necədir və hansı nəqliyyat növləri ilə işləmək olar?',
-    answer:
-      'İş qrafiki tam sərbəstdir: iş saatlarınızı özünüz müəyyən edirsiniz, istədiyiniz gün və saatda xəttə qoşulub əlavə və ya əsas iş kimi çalışa bilərsiniz. Qəbul edilən nəqliyyat növləri: Velosiped, Skuter, Motosiklet və Avtomobil. Velosipedi olmayanlar üçün icarə variantları da mövcuddur (bunu qeydiyyatda qeyd etmək lazımdır).',
-    updatedAt: '2026-11-17T00:00:00.000Z',
-  },
-  {
-    id: 'kb-courier-process',
-    category: 'Kuryerlik prosesi',
-    question: 'Kuryerlik prosesi necə başlayır və nə vaxt işə başlaya bilərəm?',
-    answer:
-      'Proses belədir: Tələb olunan sənədləri hazırlayıb rəsmi qeydiyyat formasını doldurursunuz (saytda addım-addım YouTube video təlimatı da var: https://youtu.be/Q3ZB9hiLd6g). Sənədlər hazırdırsa, müraciətiniz adətən 1-2 gün ərzində aktivləşdirilir və Wolt platformasında restoran sifarişlərini çatdırmağa başlayırsınız.',
-    updatedAt: '2026-11-17T00:00:00.000Z',
-  },
-  {
-    id: 'kb-earnings-payout',
-    category: 'Qazanc və Ödənişlər',
-    question: 'Qazanc sistemi və maaş ödənişləri necə hesablanır?',
-    answer:
-      'İki ödəniş sistemi mövcuddur: Gündəlik ödənişdə qazanc 40 AZN-ə qədər olduqda kuryer 75% (şirkət 25%), 40 AZN-dən yuxarı olduqda kuryer 80% (şirkət 20%) pay alır. 15 günlük ödəniş sistemində isə kuryer payı 80%, şirkət payı 20%-dir. Ödənişlər aktiv M10 nömrəsinə və ya həftədə 1 dəfə bank kartınıza köçürülür.',
-    updatedAt: '2026-11-17T00:00:00.000Z',
-  },
-  {
-    id: 'kb-deposit-bag',
-    category: 'Depozit və Çanta',
-    question: '40 AZN depozit və Wolt termal çantası qaydası necədir?',
-    answer:
-      'İlkin nağd ödəniş tələb olunmur. Qeydiyyat zamanı hesabınızda 40 AZN mənfi depozit açılır və işlədikcə qazancınızdan hissə-hissə çıxılır. Bu məbləğə 1 ədəd rəsmi Wolt termal çantası daxildir. Çantanı geri qaytardığınız zaman 80%-i (32 AZN) geri ödənilir, 20%-i (8 AZN) isə istifadə və amortizasiya haqqı olaraq saxlanılır.',
-    updatedAt: '2026-11-17T00:00:00.000Z',
-  },
-  {
-    id: 'kb-application-status',
-    category: 'Müraciətlərin vəziyyəti',
-    question: 'Qeydiyyat müraciətimin vəziyyətini necə öyrənə bilərəm?',
-    answer:
-      'Şəxsi məlumatların qorunması səbəbindən bu köməkçi fərdi müraciətlərə və sənədlərə çıxış əldə etmir. Müraciətinizin vəziyyətini dəqiqləşdirmək üçün birbaşa +994 99 800 75 65 WhatsApp nömrəsi və ya +994 60 446 64 04 telefon nömrəsi ilə FLASHLY FLEET komandası ilə əlaqə saxlayın.',
-    updatedAt: '2026-11-17T00:00:00.000Z',
-  },
-  {
-    id: 'kb-contact-office',
-    category: 'Əlaqə və Ofis',
-    question: 'FLASHLY FLEET ofisi harada yerləşir və əlaqə vasitələri hansılardır?',
-    answer:
-      'Bakı ofisimizin ünvanı: Məmməd Araz 25A (Avropa qapıları / English Yard ilə üzbəüz), 2-ci mərtəbə, ofis 7, soldan üçüncü otaq. Əlaqə nömrələri: +994 99 800 75 65 (WhatsApp və zəng) və +994 60 446 64 04 (telefon və WhatsApp). Rəsmi Instagram səhifəsi: @woltqeydiyyati (https://www.instagram.com/woltqeydiyyati/).',
-    updatedAt: '2026-11-17T00:00:00.000Z',
-  },
-  {
-    id: 'kb-bonuses',
-    category: 'Bonuslar',
-    question: 'Instagram bonusu necə işləyir?',
-    answer:
-      'Instagram-da @woltqeydiyyati səhifəsini izləyib ekran görüntüsünü (screenshot) WhatsApp-a göndərənlər qeydiyyatda 1-ci növbəyə keçir və sənəd köməyi pulsuz olur.',
-    updatedAt: '2026-11-17T00:00:00.000Z',
-  },
-];
+const DEFAULT_KNOWLEDGE_BASE: KnowledgeEntry[] = VERIFIED_KNOWLEDGE_BASE;
 
 function ensureStoreFile(): void {
   if (!fs.existsSync(DATA_DIR)) {
@@ -180,14 +92,6 @@ function writeStore(store: ChatbotStore): void {
   fs.renameSync(tempPath, STORE_PATH);
 }
 
-function buildWhatsappSupportUrl(userQuestion?: string): string {
-  const cleanQuestion = (userQuestion || '').trim();
-  const text = cleanQuestion
-    ? `Salam. FLASHLY FLEET saytındakı köməkçidən yazıram. Bu sual barədə dəqiq məlumat almaq istəyirəm: "${cleanQuestion}"`
-    : 'Salam. FLASHLY FLEET saytındakı köməkçidən yazıram. Məlumat almaq istəyirəm.';
-  return `${WHATSAPP_BASE_URL}?text=${encodeURIComponent(text)}`;
-}
-
 function createGeminiClient(): GoogleGenAI | null {
   const apiKey = (process.env.GEMINI_API_KEY || '').trim();
   if (!apiKey || apiKey === 'MY_GEMINI_API_KEY') {
@@ -201,20 +105,6 @@ function createGeminiClient(): GoogleGenAI | null {
       },
     },
   });
-}
-
-function formatKnowledgeBaseForPrompt(entries: KnowledgeEntry[]): string {
-  const kbList =
-    entries.length === 0
-      ? 'Məlumat bazası hazırda boşdur.'
-      : entries
-          .map(
-            (item, index) =>
-              `[${index + 1}] Kateqoriya: ${item.category}\nSual: ${item.question}\nTəsdiqlənmiş Cavab: ${item.answer}`
-          )
-          .join('\n\n');
-
-  return `${kbList}\n\n[ƏLAVƏ TƏSDİQLƏNMİŞ MƏLUMAT]\n- Rəsmi Instagram səhifəsi: @woltqeydiyyati (${INSTAGRAM_URL}).\n- İstifadəçi "Başqa sualım var." yazdıqda ona nəzakətlə sualını buraya yazmağı və ya +994 99 800 75 65 WhatsApp nömrəsi ilə əlaqə saxlamağı təklif et (status: "ANSWERED").\n- Tövsiyə / referral proqramı barədə soruşularsa, belə bir proqramın hazırda aktiv olmadığını bildir və ya əməkdaşlara yönləndir.`;
 }
 
 interface GeminiStructuredReply {
@@ -403,54 +293,10 @@ async function startServer() {
       console.error('[FLASHLY Chatbot Error]:', message);
 
       // Strict deterministic verified-KB match on transient Gemini timeout/failure (zero invention)
-      const qLower = userQuestion.toLowerCase();
-      const findById = (id: string) =>
-        store.knowledgeBase.find((entry) => entry.id === id);
-
-      const exactKb = store.knowledgeBase.find(
-        (entry) => entry.question.trim().toLowerCase() === qLower
+      const fallbackMatch = matchVerifiedStarterReply(
+        userQuestion,
+        store.knowledgeBase
       );
-
-      let fallbackMatch: { reply: string; category: string } | null = null;
-      if (exactKb) {
-        fallbackMatch = { reply: exactKb.answer, category: exactKb.category };
-      } else if (qLower === 'başqa sualım var.' || qLower === 'başqa sualım var') {
-        fallbackMatch = {
-          reply:
-            'Buyurun, sualınızı buraya yazın və ya birbaşa +994 99 800 75 65 WhatsApp nömrəsi ilə əməkdaşlarımızla əlaqə saxlayın.',
-          category: 'Ümumi',
-        };
-      } else if (
-        qLower === 'qeydiyyatımın statusunu öyrənmək istəyirəm.' ||
-        qLower === 'qeydiyyatımın statusunu öyrənmək istəyirəm'
-      ) {
-        const kb = findById('kb-application-status');
-        if (kb) fallbackMatch = { reply: kb.answer, category: kb.category };
-      } else if (
-        qLower === 'qeydiyyat sənədləri haqqında.' ||
-        qLower === 'qeydiyyat sənədləri haqqında'
-      ) {
-        const kb = findById('kb-required-documents');
-        if (kb) fallbackMatch = { reply: kb.answer, category: kb.category };
-      } else if (
-        qLower === 'ödəniş və qazanc haqqında.' ||
-        qLower === 'ödəniş və qazanc haqqında'
-      ) {
-        const kb = findById('kb-earnings-payout');
-        if (kb) fallbackMatch = { reply: kb.answer, category: kb.category };
-      } else if (
-        qLower === 'iş prosesi haqqında.' ||
-        qLower === 'iş prosesi haqqında'
-      ) {
-        const kb = findById('kb-courier-process');
-        if (kb) fallbackMatch = { reply: kb.answer, category: kb.category };
-      } else if (
-        qLower === 'kuryer olmaq istəyirəm.' ||
-        qLower === 'kuryer olmaq istəyirəm'
-      ) {
-        const kb = findById('kb-registration-free');
-        if (kb) fallbackMatch = { reply: kb.answer, category: kb.category };
-      }
 
       if (fallbackMatch) {
         const logEntry: ChatLogEntry = {
